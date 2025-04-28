@@ -1,5 +1,6 @@
 package com.DucPhuc.Plants_shop.service;
 
+import com.DucPhuc.Plants_shop.dto.request.UpdateUserRequest;
 import com.DucPhuc.Plants_shop.dto.request.UserCreationRequest;
 import com.DucPhuc.Plants_shop.dto.request.UserLoginRequest;
 import com.DucPhuc.Plants_shop.dto.response.UserResponse;
@@ -14,6 +15,8 @@ import com.DucPhuc.Plants_shop.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -63,14 +66,64 @@ public class UserService {
                 .build();
     }
 
-    public UserResponse getUser(String id){
-        User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+    public UserResponse getUser(){
+
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        User user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
         return UserResponse.builder()
+                .id(user.getId())
                 .username(user.getUsername())
                 .phone(user.getPhone())
                 .address(user.getAddress())
                 .email(user.getEmail())
                 .name(user.getName())
+                .build();
+    }
+
+    @PostAuthorize("returnObject.username == authentication.name")
+    public UserResponse updateUser(String id, UpdateUserRequest request)
+    {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        if (request.getOldPassword() != null) {
+            boolean valid = passwordEncoder.matches(request.getOldPassword(), user.getPassword());
+
+            if (!valid)
+                throw new AppException(ErrorCode.PASSWORD_NOT_MATCH);
+            else {
+                if (request.getNewPassword().equals(request.getConfirmPassword())) {
+                    user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+                } else {
+                    throw new AppException(ErrorCode.CONFIRM_PASSWORD_NOT_MATCH);
+                }
+            }
+        }
+
+        if (userRepository.existsByEmail(request.getEmail()))
+            throw new AppException(ErrorCode.EMAIL_HAS_USED);
+
+        if (userRepository.existsByPhone(request.getPhone()))
+            throw new AppException(ErrorCode.PHONE_HAS_USED);
+
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setAddress(request.getAddress());
+        user.setPhone(request.getPhone());
+        userRepository.save(user);
+
+        return UserResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .name(user.getName())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .address(user.getAddress())
                 .build();
     }
 }

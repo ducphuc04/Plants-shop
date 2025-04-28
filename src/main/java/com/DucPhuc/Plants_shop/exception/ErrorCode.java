@@ -16,6 +16,9 @@ public enum ErrorCode {
     PASSWORD_IS_USED(1009, "Password is used"),
     PASSWORD_NOT_MATCH(1010, "Password not match"),
     USER_NOT_EXISTED(1011, "User is not existed"),
+    PRODUCT_NOT_FOUND(1012, "Product not found"),
+    CONFIRM_PASSWORD_NOT_MATCH(1013, "Confirm password not match"),
+    PHONE_HAS_USED(1014, "Phone has used"),
     ;
 
 

@@ -7,16 +7,20 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int productId;
+    private long productId;
     private String productName;
     private int price;
     private String description;
     private String image;
     private int stock;
+    private String category;
+    private String createdAt;
 }
