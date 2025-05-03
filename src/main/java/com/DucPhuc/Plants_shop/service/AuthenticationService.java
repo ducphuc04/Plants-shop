@@ -57,12 +57,12 @@ public class AuthenticationService {
             if (!authenticated)
                 throw new AppException(ErrorCode.WRONG_PASSWORD);
 
-            String token = generateToken(request.getUsername());
+            String token = generateToken(request.getUsername(), employee.getRole().toUpperCase());
 
             return AuthenticationResponse.builder()
                     .token(token)
                     .authenticated(true)
-                    .role("ADMIN")
+                    .role(employee.getRole().toUpperCase())
                     .build();
         }
 
@@ -75,7 +75,7 @@ public class AuthenticationService {
             if (!authenticated)
                 throw new AppException(ErrorCode.WRONG_PASSWORD);
 
-            String token = generateToken(request.getUsername());
+            String token = generateToken(request.getUsername(), "USER");
 
             return AuthenticationResponse.builder()
                     .token(token)
@@ -88,7 +88,7 @@ public class AuthenticationService {
     }
 
 
-    private String generateToken(String username)  {
+    private String generateToken(String username, String role)  {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
@@ -98,7 +98,7 @@ public class AuthenticationService {
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
-                .claim("customeClaim", "Custom")
+                .claim("scope", "ROLE_"+role)
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());

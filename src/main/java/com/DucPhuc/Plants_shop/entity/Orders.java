@@ -1,28 +1,35 @@
 package com.DucPhuc.Plants_shop.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderId;
-    private int userId;
+    private long orderId;
+    @ManyToOne
+    private User user;
     private Date orderDate;
     private String status;
-    private int employeeId;
-    private int shipping;
+    @ManyToOne
+    @JoinColumn(name = "employeeId", nullable = true)
+    private Employee employee;
+    private int totalProduct;
+    private int totalPrice;
     private String address;
     private String phone;
     private String email;
     private String paymentMethod;
-
+    private Date paymentDate;
+    @OneToMany
+    private List<OrderDetails> orderDetails;
 }

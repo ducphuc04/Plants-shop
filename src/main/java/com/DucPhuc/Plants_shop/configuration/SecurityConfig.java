@@ -37,7 +37,7 @@ public class SecurityConfig {
     EmployeeRepository employeeRepository;
     @Autowired
     UserRepository userRepository;
-    private final String[] PUBLIC_ENDPOINTS = {"/auth/login", "/auth/introspect", "/users", "/registration", "/auth/forgot-password", "/auth/reset-password"};
+    private final String[] PUBLIC_ENDPOINTS = {"/auth/login", "/auth/introspect", "/users", "/user/registration", "/auth/forgot-password", "/auth/reset-password"};
     @Value("${jwt.signerKey}")
     private String SINGER_KEY;
 

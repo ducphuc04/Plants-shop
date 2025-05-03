@@ -1,22 +1,21 @@
 package com.DucPhuc.Plants_shop.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderDetailId;
-    private int orderId;
-    private int productId;
-    private String productName;
+    private long orderDetailId;
+    @ManyToOne
+    private Orders order;
+    @ManyToOne
+    private Product product;
     private int quantity;
-    private int discount;
 }

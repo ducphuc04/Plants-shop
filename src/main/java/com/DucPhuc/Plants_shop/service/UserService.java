@@ -105,16 +105,23 @@ public class UserService {
             }
         }
 
-        if (userRepository.existsByEmail(request.getEmail()))
-            throw new AppException(ErrorCode.EMAIL_HAS_USED);
+        if (request.getEmail() != null) {
+            if (userRepository.existsByEmail(request.getEmail()))
+                throw new AppException(ErrorCode.EMAIL_HAS_USED);
+            else
+                user.setEmail(request.getEmail());
+        }
 
-        if (userRepository.existsByPhone(request.getPhone()))
-            throw new AppException(ErrorCode.PHONE_HAS_USED);
+        if (request.getPhone() != null) {
+            if (userRepository.existsByPhone(request.getPhone()))
+                throw new AppException(ErrorCode.PHONE_HAS_USED);
+            else
+                user.setPhone(request.getPhone());
+        }
 
         user.setName(request.getName());
-        user.setEmail(request.getEmail());
         user.setAddress(request.getAddress());
-        user.setPhone(request.getPhone());
+
         userRepository.save(user);
 
         return UserResponse.builder()

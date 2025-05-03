@@ -19,6 +19,13 @@ public enum ErrorCode {
     PRODUCT_NOT_FOUND(1012, "Product not found"),
     CONFIRM_PASSWORD_NOT_MATCH(1013, "Confirm password not match"),
     PHONE_HAS_USED(1014, "Phone has used"),
+    QUANTITY_NOT_ENOUGH(1015, "Quantity not enough"),
+    CART_NOT_FOUND(1016, "Cart not found"),
+    ITEM_NOT_FOUND(1017, "Item not found"),
+    CART_EMPTY(1018, "Cart is empty"),
+    OUT_OF_STOCK(1019, "Out of stock"),
+    CANNOT_DELETE_ORDER(1020, "Cannot delete order"),
+    ORDER_NOT_FOUND(1021, "Order not found"),
     ;
 
 
