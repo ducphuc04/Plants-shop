@@ -16,4 +16,6 @@ public class ProductResponse {
     int price;
     String image;
     String description;
+    int stock;
+    String type;
 }

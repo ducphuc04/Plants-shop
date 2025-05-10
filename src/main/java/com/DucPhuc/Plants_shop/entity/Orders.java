@@ -17,6 +17,7 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderId;
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
     private Date orderDate;
     private String status;

@@ -26,6 +26,10 @@ public enum ErrorCode {
     OUT_OF_STOCK(1019, "Out of stock"),
     CANNOT_DELETE_ORDER(1020, "Cannot delete order"),
     ORDER_NOT_FOUND(1021, "Order not found"),
+    EMPLOYEE_NOT_EXISTED(1022, "Employee not existed"),
+    OLD_PASSWORD_IS_WRONG(1023, "Old password is wrong"),
+    UNAUTHORIZED(1024, "Unauthorized"),
+    PRODUCT_NAME_ALREADY_EXISTS(1025, "Product name already exists"),
     ;
 
 

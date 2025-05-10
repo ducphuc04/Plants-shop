@@ -1,13 +1,11 @@
 package com.DucPhuc.Plants_shop.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,6 +19,8 @@ public class Product {
     private String description;
     private String image;
     private int stock;
-    private String category;
-    private String createdAt;
+    private String type;
+    private Date createdAt;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderDetails> orderDetailsList;
 }
