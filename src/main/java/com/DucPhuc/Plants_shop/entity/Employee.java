@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Builder
@@ -26,4 +27,6 @@ public class Employee {
     @Column(unique = true)
     private String email;
     private Date createBy;
+    @OneToMany(mappedBy = "employee")
+    private List<Orders> orders;
 }

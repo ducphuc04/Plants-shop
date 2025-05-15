@@ -30,6 +30,15 @@ public enum ErrorCode {
     OLD_PASSWORD_IS_WRONG(1023, "Old password is wrong"),
     UNAUTHORIZED(1024, "Unauthorized"),
     PRODUCT_NAME_ALREADY_EXISTS(1025, "Product name already exists"),
+    EMPTY_IMAGE(1026, "image is not empty"),
+    INVALID_IMAGE_TYPE(1027, "Invalid image type"),
+    IMAGE_TOO_LARGE(1028, "Image too large"),
+    INVALID_IMAGE(1029, "Invalid image"),
+    CAN_NOT_READ_IMAGE(1030, "Can not read image"),
+    ORDER_NOT_PENDING(1031, "Order has been solved"),
+    EMPLOYEE_NOT_FOUND(1032, "Employee not found"),
+    EMPLOYEE_EXISTED(1033, "Employee existed"),
+    ACTION_NOT_FOUND(1034, "Action not found"),
     ;
 
 

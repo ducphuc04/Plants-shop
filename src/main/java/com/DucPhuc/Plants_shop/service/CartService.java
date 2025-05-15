@@ -13,7 +13,9 @@ import com.DucPhuc.Plants_shop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -32,9 +34,16 @@ public class CartService {
     CartItemRepository cartItemRepository;
     @Autowired
     OrderRepository orderRepository;
+    @Autowired
+    OrderDetailsRepository orderDetailsRepository;
 
     public AddToCartResponse addToCart(String username, AddToCartRequest request)
     {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        if (!name.equals(username))
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
@@ -45,32 +54,37 @@ public class CartService {
                 .orElse(Cart.builder().user(user).build());
 
         cartRepository.save(cart);
-        if (request.getQuantity() > product.getStock())
-            throw new AppException(ErrorCode.QUANTITY_NOT_ENOUGH);
-        else {
-            CartItem cartItem = cartItemRepository.findByCartAndProduct_ProductId(cart, product.getProductId())
-                    .map(item -> {
-                        item.setQuantity(item.getQuantity() + request.getQuantity());
-                        return item;
-                    })
-                    .orElseGet(() -> CartItem.builder()
-                            .cart(cart)
-                            .product(product)
-                            .quantity(request.getQuantity())
-                            .build());
 
-            cartItemRepository.save(cartItem);
+        CartItem cartItem = cartItemRepository.findByCartAndProduct_ProductId(cart, product.getProductId())
+                .map(item -> {
+                    item.setQuantity(item.getQuantity() + request.getQuantity());
+                    return item;
+                })
+                .orElseGet(() -> CartItem.builder()
+                        .cart(cart)
+                        .product(product)
+                        .quantity(request.getQuantity())
+                        .build());
+
+        cartItemRepository.save(cartItem);
 
 
-            return AddToCartResponse.builder()
-                    .productId(cartItem.getProduct().getProductId())
-                    .quantity(cartItem.getQuantity())
-                    .valid(true)
-                    .build();
-        }
+        return AddToCartResponse.builder()
+                .productName(product.getProductName())
+                .quantity(cartItem.getQuantity())
+                .price(product.getPrice())
+                .totalPrice(product.getPrice() * cartItem.getQuantity())
+                .build();
+
     }
 
     public List<CartItemResponse> getCartItems(String username){
+
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        if (!name.equals(username))
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
@@ -88,7 +102,14 @@ public class CartService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void deleteCartItem(String username, long productId){
+
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        if (!name.equals(username))
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
@@ -98,10 +119,18 @@ public class CartService {
         CartItem cartItem = cartItemRepository.findByCartAndProduct_ProductId(cart, productId)
                 .orElseThrow(() -> new AppException(ErrorCode.ITEM_NOT_FOUND));
 
-        cartItemRepository.delete(cartItem);
+        cart.getCartItems().remove(cartItem);
+        cartRepository.save(cart);
+
     }
 
     public CartItemResponse updateCartItem (String username, long productId, int newQuantity){
+
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        if (!name.equals(username))
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+
         if (newQuantity < 0)
             throw new AppException(ErrorCode.QUANTITY_NOT_ENOUGH);
 
@@ -120,6 +149,7 @@ public class CartService {
         cartItemRepository.save(cartItem);
 
         return CartItemResponse.builder()
+                .productId(productId)
                 .productName(cartItem.getProduct().getProductName())
                 .image(cartItem.getProduct().getImage())
                 .quantity(cartItem.getQuantity())
@@ -128,12 +158,21 @@ public class CartService {
     }
 
     public OrderResponse payment(String username, OrderRequest request){
+
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        if (!name.equals(username))
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         Cart cart = cartRepository.findByUser(user)
                 .orElseThrow(() -> new AppException(ErrorCode.CART_NOT_FOUND));
 
+        if (cart.getCartItems().isEmpty())
+            throw new AppException(ErrorCode.CART_EMPTY);
+        
         Date paymentDate = new Date();
         if (request.getPaymentMethod().equals("BANKING"))
             paymentDate.setTime(paymentDate.getTime());
@@ -150,38 +189,38 @@ public class CartService {
                 .totalProduct(cart.getCartItems().size())
                 .status("pending")
                 .build();
-        if (cart.getCartItems().isEmpty())
-            throw new AppException(ErrorCode.CART_EMPTY);
+        
 
         int total = 0;
 
         for (CartItem item : cart.getCartItems()){
             Product product = item.getProduct();
 
-            if (product.getStock() < item.getQuantity())
-                throw new AppException(ErrorCode.OUT_OF_STOCK);
-            product.setStock(product.getStock() - item.getQuantity());
-            productRepository.save(product);
-
             total += product.getPrice() * item.getQuantity();
+        }
 
-            OrderDetails.builder()
+        order.setTotalPrice(total);
+        orderRepository.save(order);
+
+        for (CartItem item : cart.getCartItems()){
+            OrderDetails orderDetails = OrderDetails.builder()
                     .order(order)
-                    .product(product)
+                    .product(item.getProduct())
                     .quantity(item.getQuantity())
+                    .price(item.getProduct().getPrice())
                     .build();
+            orderDetailsRepository.save(orderDetails);
         }
 
         cart.getCartItems().clear();
         cartRepository.save(cart);
-        order.setTotalPrice(total);
-        orderRepository.save(order);
 
         return OrderResponse.builder()
                 .orderDate(order.getOrderDate())
                 .totalPrice(total)
-                .totalProduct(cart.getCartItems().size())
+                .totalProduct(order.getTotalProduct())
                 .paymentMethod(order.getPaymentMethod())
+                .status(order.getStatus())
                 .build();
     }
 
@@ -195,6 +234,7 @@ public class CartService {
                         .totalPrice(order.getTotalPrice())
                         .totalProduct(order.getTotalProduct())
                         .paymentMethod(order.getPaymentMethod())
+                        .status(order.getStatus())
                         .build())
                 .collect(Collectors.toList());
 
@@ -208,6 +248,12 @@ public class CartService {
 
     public void deleteOrder(String username, Long orderId)
     {
+
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        if (!name.equals(username))
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 

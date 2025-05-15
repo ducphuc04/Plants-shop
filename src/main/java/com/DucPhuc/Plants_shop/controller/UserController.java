@@ -8,10 +8,12 @@ import com.DucPhuc.Plants_shop.dto.response.*;
 import com.DucPhuc.Plants_shop.service.CartService;
 import com.DucPhuc.Plants_shop.service.UserService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.query.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
@@ -37,6 +40,10 @@ public class UserController {
     @GetMapping("/get-user-inf")
     ApiResponse<UserResponse> getUser()
     {
+        var context = SecurityContextHolder.getContext().getAuthentication();
+        log.info("username" + context.getName());
+        context.getAuthorities().forEach(a -> log.info(a.getAuthority()));
+
         var result = userService.getUser();
         return ApiResponse.<UserResponse>builder()
                 .result(result)
@@ -71,11 +78,14 @@ public class UserController {
                 .build();
     }
 
-    @DeleteMapping("delete-cart/{username}/{productId}")
-    ApiResponse<String> deleteCart(@PathVariable String username,
+    @DeleteMapping("delete-cart-item/{username}/{productId}")
+    ApiResponse<String> deleteProduct(@PathVariable String username,
                                        @PathVariable Long productId)
     {
+//        System.out.println("DELETE method hit for " + username + ", " + productId);
+
         cartService.deleteCartItem(username, productId);
+
         return ApiResponse.<String>builder()
                 .result("product has been deleted")
                 .build();

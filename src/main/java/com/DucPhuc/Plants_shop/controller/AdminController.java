@@ -2,21 +2,24 @@ package com.DucPhuc.Plants_shop.controller;
 
 import com.DucPhuc.Plants_shop.dto.request.CreateEmployeeRequest;
 import com.DucPhuc.Plants_shop.dto.request.EmployeeUpdateRequest;
-import com.DucPhuc.Plants_shop.dto.response.ApiResponse;
-import com.DucPhuc.Plants_shop.dto.response.EmployeeResponse;
-import com.DucPhuc.Plants_shop.dto.response.PagingResponse;
-import com.DucPhuc.Plants_shop.dto.response.UserSummaryResponse;
+import com.DucPhuc.Plants_shop.dto.response.*;
 import com.DucPhuc.Plants_shop.service.AdminService;
+import com.DucPhuc.Plants_shop.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/listUser")
     public ApiResponse<PagingResponse<UserSummaryResponse>> getAllUsers(Pageable pageable) {
@@ -44,5 +47,52 @@ public class AdminController {
                 .build();
     }
 
+    @GetMapping("getAllEmployees")
+    public ApiResponse<PagingResponse<EmployeeWithOrderResponse>> getAllEmployees(Pageable pageable) {
 
+        var result = adminService.getAllEmployees(pageable);
+        return ApiResponse.<PagingResponse<EmployeeWithOrderResponse>>builder()
+                .result(result)
+                .build();
+    }
+
+    @DeleteMapping("/deleteEmployee/{username}")
+    public ApiResponse<String> deleteEmployee(@PathVariable String username) {
+
+        adminService.deleteEmployee(username);
+
+        return ApiResponse.<String>builder()
+                .result(username + " has been deleted")
+                .build();
+    }
+
+    @GetMapping("/getOrders")
+    public ApiResponse<PagingResponse<OrderResponse>> getAllOrders(Pageable pageable) {
+        var result = orderService.getAllOrders(pageable);
+
+        return ApiResponse.<PagingResponse<OrderResponse>>builder()
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("/solveOrder/{orderId}")
+    public ApiResponse<OrderResponse> solveOrder(@PathVariable Long orderId,
+                                                 @RequestParam String action) {
+        var result = orderService.solveOrder(orderId, action);
+
+        return ApiResponse.<OrderResponse>builder()
+                .result(result)
+                .build();
+    }
+
+    @GetMapping("/orderDetail/{orderId}")
+    public ApiResponse<PagingResponse<OrderDetailResponse>> getOrderDetail(@PathVariable Long orderId,
+                                                                           Pageable pageable) {
+
+        var result = orderService.getOrderDetail(orderId, pageable);
+
+        return ApiResponse.<PagingResponse<OrderDetailResponse>>builder()
+                .result(result)
+                .build();
+    }
 }

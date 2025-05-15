@@ -18,4 +18,5 @@ public class OrderResponse {
     int totalProduct;
     int totalPrice;
     String paymentMethod;
+    String status;
 }

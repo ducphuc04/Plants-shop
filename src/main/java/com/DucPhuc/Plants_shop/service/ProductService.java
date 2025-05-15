@@ -2,15 +2,17 @@ package com.DucPhuc.Plants_shop.service;
 
 import com.DucPhuc.Plants_shop.dto.response.PagingResponse;
 import com.DucPhuc.Plants_shop.dto.response.ProductResponse;
+import com.DucPhuc.Plants_shop.entity.CartItem;
 import com.DucPhuc.Plants_shop.entity.Product;
 import com.DucPhuc.Plants_shop.exception.AppException;
 import com.DucPhuc.Plants_shop.exception.ErrorCode;
+import com.DucPhuc.Plants_shop.repository.CartItemRepository;
 import com.DucPhuc.Plants_shop.repository.ProductRepository;
+import com.DucPhuc.Plants_shop.util.ImageValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,9 +24,24 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public PagingResponse<ProductResponse> getAllProducts(Pageable pageable) {
+    @Autowired
+    private ImageValidator imageValidator;
 
-        Page<Product> products = productRepository.findAll(pageable);
+    @Autowired
+    private CartItemRepository cartItemRepository;
+
+    public List<String> getAllCategories() {
+        return productRepository.findAllCategories();
+    }
+
+    public PagingResponse<ProductResponse> getAllProducts(String category, Pageable pageable) {
+
+        Page<Product> products;
+        if (category != null)
+            products = productRepository.findByCategory(category, pageable);
+        else {
+            products = productRepository.findAll(pageable);
+        }
 
         List<ProductResponse> productResponses = products.getContent()
                 .stream()
@@ -46,7 +63,7 @@ public class ProductService {
                 .description(product.getDescription())
                 .stock(product.getStock())
                 .image(product.getImage())
-                .type(product.getType())
+                .category(product.getCategory())
                 .build();
     }
 
@@ -56,38 +73,67 @@ public class ProductService {
         return convertToResponse(product);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_EMPLOYEE')")
     public ProductResponse createProduct(Product product){
         if (productRepository.existsByProductName(product.getProductName())) {
             throw new AppException(ErrorCode.PRODUCT_NAME_ALREADY_EXISTS);
         }
+
+        if (!isValidImage(product.getImage())) {
+            throw new AppException(ErrorCode.INVALID_IMAGE);
+        }
+
         product.setCreatedAt(new java.util.Date());
         Product savedProduct = productRepository.save(product);
 
         return convertToResponse(savedProduct);
     }
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
+
+    private boolean isValidImage(String image) {
+        if (image == null || image.isBlank()) {
+            return false;
+        }
+
+        String lower = image.toLowerCase();
+        return lower.endsWith(".jpg") || lower.endsWith(".jpeg") || lower.endsWith(".png") || lower.endsWith(".gif");
+    }
+
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_EMPLOYEE')")
     public void deleteProduct(long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        cartItemRepository.deleteAllByProduct_ProductId(productId);
+
         productRepository.deleteById(productId);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_EMPLOYEE')")
     public ProductResponse updateProduct(long productId, Product product) {
 
         Product existingProduct = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
-        existingProduct.setProductName(product.getProductName());
-        existingProduct.setPrice(product.getPrice());
-        existingProduct.setType(product.getType());
-        existingProduct.setStock(product.getStock());
-        existingProduct.setImage(product.getImage());
-        existingProduct.setDescription(product.getDescription());
 
-        productRepository.save(existingProduct);
+        if (!isValidImage(product.getImage())) {
+            throw new AppException(ErrorCode.INVALID_IMAGE);
+        }
+
+        if (product != null)
+        {
+            if (product.getPrice() != null)
+                existingProduct.setPrice(product.getPrice());
+
+            if (product.getStock() != null)
+                existingProduct.setStock(product.getStock());
+
+            if (product.getDescription() != null)
+                existingProduct.setDescription(product.getDescription());
+
+            if (product.getImage() != null) {
+                existingProduct.setImage(product.getImage());
+            }
+        }
 
         return convertToResponse(existingProduct);
     }
-
 }

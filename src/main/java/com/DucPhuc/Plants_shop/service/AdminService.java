@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@EnableMethodSecurity
 public class AdminService {
 
     @Autowired
@@ -34,7 +36,7 @@ public class AdminService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public PagingResponse<UserSummaryResponse> getAllUsers(Pageable pageable) {
         Page<Object[]> results = orderRepository.findAllUserSummaries(pageable);
 
@@ -56,9 +58,12 @@ public class AdminService {
         );
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public EmployeeResponse createEmployee(CreateEmployeeRequest request)
     {
+        if (employeeRepository.existsByUsername(request.getUsername()))
+            throw new AppException(ErrorCode.EMPLOYEE_EXISTED);
+
         Employee employee = new Employee();
         employee.setUsername(request.getUsername());
         employee.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -78,10 +83,11 @@ public class AdminService {
                 .build();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_EMPLOYEE')")
     public EmployeeResponse updateEmployee(String username, EmployeeUpdateRequest request){
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
-        log.info("name: " + name);
+
         if (!name.equals(username)) {
             throw new AppException(ErrorCode.UNAUTHORIZED);
         }
@@ -116,7 +122,7 @@ public class AdminService {
                 .build();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public PagingResponse<EmployeeWithOrderResponse> getAllEmployees(Pageable pageable) {
         Page<Object[]> results = employeeRepository.findAllWithOrderCount(pageable);
 
@@ -146,7 +152,7 @@ public class AdminService {
         );
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public void deleteEmployee(String username) {
         Employee employee = employeeRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));

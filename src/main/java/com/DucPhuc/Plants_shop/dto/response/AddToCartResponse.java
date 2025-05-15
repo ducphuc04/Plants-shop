@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddToCartResponse {
-    private long productId;
+    private String productName;
     private int quantity;
-    boolean valid;
+    private int price;
+    private int totalPrice;
 }

@@ -1,8 +1,8 @@
 package com.DucPhuc.Plants_shop.dto.request;
 
-import jakarta.validation.constraints.Email;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -11,11 +11,11 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class OrderRequest {
-    String paymentMethod;
-    String name;
-    String phone;
-    String address;
-    @Email
-    String email;
+public class ProductRequest {
+    String productName;
+    String description;
+    int price;
+    String category;
+    int stock;
+    MultipartFile image;
 }
