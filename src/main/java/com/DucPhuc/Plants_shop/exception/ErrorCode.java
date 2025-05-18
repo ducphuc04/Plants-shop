@@ -39,6 +39,8 @@ public enum ErrorCode {
     EMPLOYEE_NOT_FOUND(1032, "Employee not found"),
     EMPLOYEE_EXISTED(1033, "Employee existed"),
     ACTION_NOT_FOUND(1034, "Action not found"),
+    CANNOT_PAY_ORDER(1035, "Cannot pay order"),
+    TOKEN_INVALID(1036, "Token invalid")
     ;
 
 

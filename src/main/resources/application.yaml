@@ -1,7 +1,6 @@
 server:
   port: 8080
-  servlet:
-    context-path: /plants_shop
+
 
 spring:
   datasource:
@@ -14,6 +13,11 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  thymeleaf:
+    prefix-url: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    cache: false
   mail:
     host: smtp.gmail.com
     port: 587
@@ -27,7 +31,8 @@ spring:
             enable: true
 jwt:
   signerKey: kAcU+KVf2Haa7BqtxYeQyhrSEAVwarlkUSh79ItPHRwSkkIPCpgKWaU+Rr/zJh0Z
-
+  valid-duration: 3600
+  refreshable-duration: 604800
 password:
   kent dsys ican yjqa
 

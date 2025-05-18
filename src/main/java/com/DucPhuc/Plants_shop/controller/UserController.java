@@ -102,11 +102,21 @@ public class UserController {
                 .build();
     }
 
-    @PostMapping("/payment/{username}")
-    ApiResponse<OrderResponse> payment(@PathVariable String username,
-                                       @RequestBody @Valid OrderRequest request)
+    @PostMapping("/createOrder/{username}")
+    ApiResponse<OrderResponse> createOrder(@PathVariable String username)
     {
-        var result = cartService.payment(username, request);
+        var result = cartService.createOrder(username);
+        return ApiResponse.<OrderResponse>builder()
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("/payment/{username}/{orderId}")
+    ApiResponse<OrderResponse> payment(@PathVariable String username,
+                                       @RequestBody @Valid OrderRequest request,
+                                       @PathVariable Long orderId)
+    {
+        var result = cartService.payment(username, request, orderId);
         return ApiResponse.<OrderResponse>builder()
                 .result(result)
                 .build();
@@ -124,13 +134,13 @@ public class UserController {
                 .build();
     }
 
-    @DeleteMapping("/delete-order/{orderId}")
-    public ApiResponse<String> deleteOrder(@PathVariable Long orderId,
+    @DeleteMapping("/cancel-order/{orderId}")
+    public ApiResponse<String> cancelOrder(@PathVariable Long orderId,
                                            @AuthenticationPrincipal Jwt jwt){
         String username = jwt.getSubject();
-        cartService.deleteOrder(username, orderId);
+        cartService.cancelOrder(username, orderId);
         return ApiResponse.<String>builder()
-                .result("order has been deleted")
+                .result("order has been canceled")
                 .build();
     }
 }

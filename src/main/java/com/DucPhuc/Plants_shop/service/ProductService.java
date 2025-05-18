@@ -73,7 +73,7 @@ public class ProductService {
         return convertToResponse(product);
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     public ProductResponse createProduct(Product product){
         if (productRepository.existsByProductName(product.getProductName())) {
             throw new AppException(ErrorCode.PRODUCT_NAME_ALREADY_EXISTS);
@@ -82,6 +82,30 @@ public class ProductService {
         if (!isValidImage(product.getImage())) {
             throw new AppException(ErrorCode.INVALID_IMAGE);
         }
+
+        product.setCreatedAt(new java.util.Date());
+        Product savedProduct = productRepository.save(product);
+
+        return convertToResponse(savedProduct);
+    }
+
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_EMPLOYEE')")
+    public ProductResponse createProduct(String name, int price, int stock, String des, String image) {
+        if (productRepository.existsByProductName(name)) {
+            throw new AppException(ErrorCode.PRODUCT_NAME_ALREADY_EXISTS);
+        }
+
+        if (!isValidImage(image)) {
+            throw new AppException(ErrorCode.INVALID_IMAGE);
+        }
+
+        Product product = Product.builder()
+                .productName(name)
+                .price(price)
+                .stock(stock)
+                .description(des)
+                .image(image)
+                .build();
 
         product.setCreatedAt(new java.util.Date());
         Product savedProduct = productRepository.save(product);

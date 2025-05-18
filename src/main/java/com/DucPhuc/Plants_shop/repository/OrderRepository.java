@@ -34,6 +34,7 @@ public interface OrderRepository extends JpaRepository<Orders, String> {
     )
     Page<Object[]> findAllUserSummaries(Pageable pageable);
 
+    Page<Orders> findByStatusNot(String status, Pageable pageable);
 //    @Query("SELECT SUM(total_product) FROM Orders WHERE status = 'processed'")
 //    Integer getTotalProductProcessed();
 //

@@ -14,6 +14,8 @@ import com.DucPhuc.Plants_shop.repository.PasswordUsedRepository;
 import com.DucPhuc.Plants_shop.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,6 +40,8 @@ public class UserService {
     private EmployeeRepository employeeRepository;
     @Autowired
     private PasswordUsedRepository passwordUsedRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger((UserService.class));
 
     public UserResponse createUser(UserCreationRequest request){
         if (userRepository.existsByUsername(request.getUsername()) || employeeRepository.existsByUsername((request.getUsername())))
@@ -133,4 +137,8 @@ public class UserService {
                 .address(user.getAddress())
                 .build();
     }
+
+//    public void logoutUser(String username){
+//        logger
+//    }
 }

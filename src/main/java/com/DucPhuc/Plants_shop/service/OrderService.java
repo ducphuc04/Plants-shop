@@ -38,7 +38,7 @@ public class OrderService {
 
     @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_EMPLOYEE')")
     public PagingResponse<OrderResponse> getAllOrders(Pageable pageable){
-        Page<Orders> orders = orderRepository.findAll(pageable);
+        Page<Orders> orders = orderRepository.findByStatusNot("unpaid", pageable);
 
         List<OrderResponse> items = orders.getContent().stream().map(
                 order -> OrderResponse.builder()
