@@ -17,29 +17,116 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg fixed-top bg-body clean-navbar mb-0">
-        <div class="container"><a class="navbar-brand logo" href="index.html" style="font-weight: bold;">PLANTS SHOP</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/index.html">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/features.html">Sản Phẩm</a></li>
-                    <li class="nav-item"><a class="nav-link me-0" href="/contact-us.html">Liên Hệ</a></li>
-                </ul><a href="shopping-cart.html"><button class="btn btn-primary class=&quot;fa-solid fa-cart-shopping mb-2 me-4" type="button" style="background: var(--bs-primary);"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cart3" style="width: 20px;height: 20px;">
-                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
-                        </svg></button></a>
-                <div class="dropdown"><button class="btn btn-primary dropdown-toggle pb-2 mt-0 mb-2" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="far fa-user"></i></button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="manage-account.html">Quản lý tài khoản</a></li>
-                        <li><a class="dropdown-item" href="index.html">Đăng xuất</a></li>
-                    </ul>
-                </div>
+<nav class="navbar navbar-expand-lg fixed-top bg-body clean-navbar mb-0">
+    <div class="container">
+        <a class="navbar-brand logo" href="index" style="font-weight: bold">PLANTS SHOP</a>
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1">
+            <span class="visually-hidden">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/index">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="/features">Sản Phẩm</a></li>
+                <li class="nav-item"><a class="nav-link me-0" href="/contact-us">Liên Hệ</a></li>
+                <li class="nav-item" id="login-nav-item"><a class="nav-link" href="/login">Đăng nhập</a></li>
+            </ul>
+
+            <!-- Giỏ hàng -->
+            <a href="shopping-cart">
+                <button class="btn btn-primary mb-2 me-4" type="button" style="background: var(--bs-primary)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                         viewBox="0 0 16 16" class="bi bi-cart3" style="width: 20px; height: 20px">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
+                    </svg>
+                </button>
+            </a>
+
+            <!-- User dropdown menu (hidden by default) -->
+            <div id="user-dropdown" class="dropdown d-none">
+                <button class="btn btn-primary dropdown-toggle pb-2 mt-0 mb-2" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="far fa-user"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="manage-account">Quản lý tài khoản</a></li>
+                    <li><a class="dropdown-item" href="history-order">Lịch sử</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="logout()">Đăng xuất</a></li>
+                </ul>
             </div>
         </div>
-    </nav>
-    <main class="page">
-        <section class="clean-block clean-form dark">
+    </div>
+</nav>
+
+<main class="page product-page">
+        <section class="clean-block clean-product dark mt-5">
             <div class="container">
-                <div data-reflow-type="product" data-bss-dynamic-product="" data-bss-dynamic-product-param="product" class="pt-5"></div>
+                <div class="block-heading">
+                    <h2 class="text-info">Chi tiết sản phẩm</h2>
+                </div>
+                <div class ="block-content">
+                    <div class="product-info">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="gallery">
+                                    <img class="img-fluid" id="product-image" src="" alt="Product Image">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info">
+                                    <h3 id="product-name"></h3>
+                                    <div class="price">
+                                        <h3 id="product-price"></h3>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="quantity">Số lượng:</label>
+                                        <input class="form-control" type="number" id="quantity" value="1" min="1" style="width: 100px">
+                                    </div>
+                                    <p id="product-stock" class="mb-3"></p>
+                                    <p id="product-category" class="mb-3"></p>
+                                    <button class="btn btn-primary" id="add-to-cart" type="button" style="background: #74a65d">
+                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-info mt-5">
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-1">Mô tả</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2">Thông số</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" role="tabpanel" id="tab-1">
+                                    <div class="product-description">
+                                        <p id="product-description"></p>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" role="tabpanel" id="tab-2">
+                                    <div class="specifications">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <span>Loại cây</span>
+                                                <p id="product-category-spec"></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span>Số lượng tồn kho</span>
+                                                <p id="product-stock-spec"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="related-products" class="mt-5">
+                        <h3 class="mb-4">Sản phẩm liên quan</h3>
+                        <div class="row" id="related-products-list">
+                            <!-- Sản phẩm liên quan sẽ được hiển thị ở đây -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -83,7 +170,250 @@
     <script src="assets/js/admin-manage-account.js"></script>
     <script src="assets/js/admin-order-page.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/CheckLogin.js"></script>
+    <script>
+// Biến toàn cục lưu thông tin sản phẩm hiện tại
+let currentProduct = null;
+let relatedProducts = [];
+
+// Hàm thêm sản phẩm vào giỏ hàng
+function addToCart(productId, quantity) {
+    // Lấy token JWT từ localStorage
+    const token = localStorage.getItem('jwt');
+    
+    // Kiểm tra đăng nhập
+    if (!token) {
+        // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+        window.location.href = '/login';
+        return;
+    }
+
+    // Lấy thông tin người dùng từ token
+    const username = parseJwt(token).sub;
+    
+    // Chuẩn bị dữ liệu gửi đi
+    const requestData = {
+        productId: productId,
+        quantity: quantity
+    };
+
+    // Gọi API thêm vào giỏ hàng
+    fetch(`/user/add-to-cart/${username}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Thêm vào giỏ hàng thất bại!');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.result) {
+            // Hiển thị thông báo thành công
+            Swal.fire({
+                title: 'Thành công!',
+                text: `Đã thêm ${quantity} ${data.result.productName} vào giỏ hàng`,
+                icon: 'success',
+                confirmButtonColor: '#74a65d'
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi khi thêm vào giỏ hàng:', error);
+        Swal.fire({
+            title: 'Lỗi!',
+            text: error.message,
+            icon: 'error',
+            confirmButtonColor: '#74a65d'
+        });
+    });
+}
+
+// Khi người dùng nhấn nút "Thêm vào giỏ hàng"
+document.getElementById('add-to-cart').addEventListener('click', function() {
+    const productId = getParameterByName('product'); // Lấy ID sản phẩm từ URL
+    const quantity = parseInt(document.getElementById('quantity').value);
+    
+    // Kiểm tra số lượng hợp lệ
+    if (isNaN(quantity) || quantity <= 0) {
+        Swal.fire({
+            title: 'Lỗi!',
+            text: 'Vui lòng nhập số lượng hợp lệ!',
+            icon: 'error',
+            confirmButtonColor: '#74a65d'
+        });
+        return;
+    }
+
+    if (quantity > currentProduct.stock) {
+        Swal.fire({
+            title: 'Lỗi!',
+            text: `Chỉ còn ${currentProduct.stock} sản phẩm trong kho!`,
+            icon: 'error',
+            confirmButtonColor: '#74a65d'
+        });
+        return;
+    }
+
+
+    // Thêm vào giỏ hàng
+    addToCart(productId, quantity);
+});
+
+// Hàm giải mã JWT token
+function parseJwt(token) {
+    try {
+        return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+        return null;
+    }
+}
+
+// Hàm lấy tham số từ URL
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+// Hàm tải thông tin chi tiết sản phẩm
+function loadProductDetails() {
+    const productId = getParameterByName('product');
+    if (!productId) {
+        showError('Không tìm thấy sản phẩm');
+        return;
+    }
+
+    fetch(`/product/detailProduct/${productId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Không thể tải thông tin sản phẩm');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.result) {
+                currentProduct = data.result;
+                displayProductDetails(currentProduct);
+                loadRelatedProducts(currentProduct.category);
+            } else {
+                showError('Không tìm thấy thông tin sản phẩm');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showError('Đã xảy ra lỗi khi tải thông tin sản phẩm');
+        });
+}
+
+// Hàm hiển thị thông tin chi tiết sản phẩm
+function displayProductDetails(product) {
+    // Cập nhật tiêu đề trang
+    document.title = `${product.productName} - Plants Shop`;
+    
+    // Cập nhật các phần tử trong trang
+    document.getElementById('product-image').src = product.image;
+    document.getElementById('product-name').textContent = product.productName;
+    document.getElementById('product-price').textContent = `${formatPrice(product.price)} VNĐ`;
+    document.getElementById('product-stock').textContent = `Còn lại: ${product.stock} sản phẩm`;
+    document.getElementById('product-category').textContent = `Danh mục: ${product.category}`;
+    document.getElementById('product-description').textContent = product.description;
+    document.getElementById('product-category-spec').textContent = product.category;
+    document.getElementById('product-stock-spec').textContent = product.stock;
+    
+    // Giới hạn số lượng tối đa có thể mua
+    document.getElementById('quantity').max = product.stock;
+}
+
+// Hàm tải sản phẩm liên quan (cùng danh mục)
+function loadRelatedProducts(category) {
+    fetch(`/product/listProduct?category=${encodeURIComponent(category)}&size=4`)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.result && data.result.items) {
+                // Lọc bỏ sản phẩm hiện tại khỏi danh sách liên quan
+                relatedProducts = data.result.items.filter(p => p.productId !== currentProduct.productId);
+                
+                // Hiển thị chỉ tối đa 4 sản phẩm
+                displayRelatedProducts(relatedProducts.slice(0, 4));
+            }
+        })
+        .catch(error => {
+            console.error('Error loading related products:', error);
+        });
+}
+
+// Hàm hiển thị sản phẩm liên quan
+function displayRelatedProducts(products) {
+    const relatedProductsList = document.getElementById('related-products-list');
+    
+    if (products.length === 0) {
+        document.getElementById('related-products').style.display = 'none';
+        return;
+    }
+    
+    let html = '';
+    products.forEach(product => {
+        html += `
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 border-3">
+                    <div class="card-body text-center">
+                        <img class="img-fluid" src="${product.image}" alt="${product.productName}" style="max-height: 150px; object-fit: contain;">
+                        <p class="card-title" style="text-align: left; font-weight: bold; height: 50px; overflow: hidden;">
+                            ${product.productName}
+                        </p>
+                        <p style="text-align: left; font-size: 16px;">
+                            ${formatPrice(product.price)} VNĐ
+                        </p>
+                        <a href="/product-detail-page?product=${product.productId}">
+                            <button class="btn btn-primary" type="button" 
+                                    style="color: #198754; border-color: #198754; border-radius: 20px; background: #ffffff;">
+                                Xem chi tiết
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>`;
+    });
+    
+    relatedProductsList.innerHTML = html;
+}
+
+
+
+// Hàm hiển thị lỗi
+function showError(message) {
+    Swal.fire({
+        title: 'Lỗi',
+        text: message,
+        icon: 'error',
+        confirmButtonText: 'Quay lại trang sản phẩm'
+    }).then(() => {
+        window.location.href = '/features';
+    });
+}
+
+// Hàm định dạng giá tiền
+function formatPrice(price) {
+    return new Intl.NumberFormat('vi-VN').format(price);
+}
+
+// Chạy khi trang được tải
+document.addEventListener('DOMContentLoaded', function() {
+    loadProductDetails();
+    
+    // Thêm sự kiện click cho nút "Thêm vào giỏ hàng"
+    
+});
+</script>
 </body>
 
 </html>

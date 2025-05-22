@@ -31,6 +31,6 @@ public class Orders {
     private String email;
     private String paymentMethod;
     private Date paymentDate;
-    @OneToMany
+    @OneToMany(mappedBy = "order")
     private List<OrderDetails> orderDetails;
 }

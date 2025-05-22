@@ -68,12 +68,13 @@ public class ProductController {
 //                .result(result)
 //                .build();
 //    }
-    @PreAuthorize(("hasAnyAuthority('ADMIN', 'EMPLOYEE')"))
+
     @PostMapping(value = "/createProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<ProductResponse> createProduct(@RequestParam String name,
                                                       @RequestParam int price,
                                                       @RequestParam int stock,
                                                       @RequestParam String des,
+                                                      @RequestParam String category,
                                                       @RequestParam("image") MultipartFile imageFile
     ){
         try{
@@ -85,7 +86,7 @@ public class ProductController {
 
             String imageUrl = uploadResult.get("secure_url").toString();
 
-            var result = productService.createProduct(name, price, stock, des, imageUrl);
+            var result = productService.createProduct(name, price, stock, des, category, imageUrl);
 
             return ApiResponse.<ProductResponse>builder()
                     .result(result)

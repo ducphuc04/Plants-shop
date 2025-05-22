@@ -58,6 +58,7 @@ public class ProductService {
 
     private ProductResponse convertToResponse(Product product) {
         return ProductResponse.builder()
+                .productId(product.getProductId())
                 .productName(product.getProductName())
                 .price(product.getPrice())
                 .description(product.getDescription())
@@ -73,24 +74,8 @@ public class ProductService {
         return convertToResponse(product);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
-    public ProductResponse createProduct(Product product){
-        if (productRepository.existsByProductName(product.getProductName())) {
-            throw new AppException(ErrorCode.PRODUCT_NAME_ALREADY_EXISTS);
-        }
-
-        if (!isValidImage(product.getImage())) {
-            throw new AppException(ErrorCode.INVALID_IMAGE);
-        }
-
-        product.setCreatedAt(new java.util.Date());
-        Product savedProduct = productRepository.save(product);
-
-        return convertToResponse(savedProduct);
-    }
-
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_EMPLOYEE')")
-    public ProductResponse createProduct(String name, int price, int stock, String des, String image) {
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
+    public ProductResponse createProduct(String name, int price, int stock, String des, String category, String image) {
         if (productRepository.existsByProductName(name)) {
             throw new AppException(ErrorCode.PRODUCT_NAME_ALREADY_EXISTS);
         }
@@ -105,6 +90,7 @@ public class ProductService {
                 .stock(stock)
                 .description(des)
                 .image(image)
+                .category(category)
                 .build();
 
         product.setCreatedAt(new java.util.Date());
@@ -122,7 +108,7 @@ public class ProductService {
         return lower.endsWith(".jpg") || lower.endsWith(".jpeg") || lower.endsWith(".png") || lower.endsWith(".gif");
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     public void deleteProduct(long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
@@ -132,7 +118,7 @@ public class ProductService {
         productRepository.deleteById(productId);
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     public ProductResponse updateProduct(long productId, Product product) {
 
         Product existingProduct = productRepository.findById(productId)

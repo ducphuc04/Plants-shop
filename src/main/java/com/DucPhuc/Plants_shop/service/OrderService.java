@@ -36,7 +36,7 @@ public class OrderService {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     public PagingResponse<OrderResponse> getAllOrders(Pageable pageable){
         Page<Orders> orders = orderRepository.findByStatusNot("unpaid", pageable);
 
@@ -58,7 +58,7 @@ public class OrderService {
         );
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     public OrderResponse solveOrder(Long orderId, String action){
 
         var context = SecurityContextHolder.getContext();

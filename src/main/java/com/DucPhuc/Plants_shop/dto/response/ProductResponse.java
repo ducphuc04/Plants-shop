@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class ProductResponse {
+    Long productId;
     String productName;
     int price;
     String image;

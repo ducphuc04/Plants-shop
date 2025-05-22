@@ -36,7 +36,7 @@ public class AdminService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public PagingResponse<UserSummaryResponse> getAllUsers(Pageable pageable) {
         Page<Object[]> results = orderRepository.findAllUserSummaries(pageable);
 
@@ -58,7 +58,7 @@ public class AdminService {
         );
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public EmployeeResponse createEmployee(CreateEmployeeRequest request)
     {
         if (employeeRepository.existsByUsername(request.getUsername()))
@@ -83,7 +83,7 @@ public class AdminService {
                 .build();
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     public EmployeeResponse updateEmployee(String username, EmployeeUpdateRequest request){
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
@@ -122,7 +122,7 @@ public class AdminService {
                 .build();
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public PagingResponse<EmployeeWithOrderResponse> getAllEmployees(Pageable pageable) {
         Page<Object[]> results = employeeRepository.findAllWithOrderCount(pageable);
 
@@ -152,7 +152,7 @@ public class AdminService {
         );
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteEmployee(String username) {
         Employee employee = employeeRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));

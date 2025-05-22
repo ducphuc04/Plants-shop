@@ -40,9 +40,9 @@ public class UserController {
     @GetMapping("/get-user-inf")
     ApiResponse<UserResponse> getUser()
     {
-        var context = SecurityContextHolder.getContext().getAuthentication();
-        log.info("username" + context.getName());
-        context.getAuthorities().forEach(a -> log.info(a.getAuthority()));
+//        var context = SecurityContextHolder.getContext().getAuthentication();
+//        log.info("username" + context.getName());
+//        context.getAuthorities().forEach(a -> log.info(a.getAuthority()));
 
         var result = userService.getUser();
         return ApiResponse.<UserResponse>builder()

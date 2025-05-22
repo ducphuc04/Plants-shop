@@ -15,6 +15,7 @@ public class ApplicationInitConfig {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
     @Bean
     ApplicationRunner applicationRunner(EmployeeRepository employeeRepository){
         return args -> {
