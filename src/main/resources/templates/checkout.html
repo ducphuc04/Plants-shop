@@ -17,42 +17,74 @@
 
 <body>
     <nav class="navbar navbar-expand-lg fixed-top bg-body clean-navbar mb-0">
-        <div class="container"><a class="navbar-brand logo" href="index.html" style="font-weight: bold;">PLANTS SHOP</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container">
+            <a class="navbar-brand logo" href="index" style="font-weight: bold">PLANTS SHOP</a>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1">
+                <span class="visually-hidden">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/index.html">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/features.html">Sản Phẩm</a></li>
-                    <li class="nav-item"><a class="nav-link me-0" href="/contact-us.html">Liên Hệ</a></li>
-                </ul><a href="shopping-cart.html"><button class="btn btn-primary class=&quot;fa-solid fa-cart-shopping mb-2 me-4" type="button" style="background: var(--bs-primary);"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cart3" style="width: 20px;height: 20px;">
+                    <li class="nav-item"><a class="nav-link" href="/index">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/features">Sản Phẩm</a></li>
+                    <li class="nav-item"><a class="nav-link me-0" href="/contact-us">Liên Hệ</a></li>
+                    <li class="nav-item" id="login-nav-item"><a class="nav-link" href="/login">Đăng nhập</a></li>
+                </ul>
+
+                <!-- Giỏ hàng -->
+                <a href="shopping-cart">
+                    <button class="btn btn-primary mb-2 me-4" type="button" style="background: var(--bs-primary)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                             viewBox="0 0 16 16" class="bi bi-cart3" style="width: 20px; height: 20px">
                             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
-                        </svg></button></a>
-                <div class="dropdown"><button class="btn btn-primary dropdown-toggle pb-2 mt-0 mb-2" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="far fa-user"></i></button>
+                        </svg>
+                    </button>
+                </a>
+
+                <!-- User dropdown menu (hidden by default) -->
+                <div id="user-dropdown" class="dropdown d-none">
+                    <button class="btn btn-primary dropdown-toggle pb-2 mt-0 mb-2" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="far fa-user"></i>
+                    </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="manage-account.html">Quản lý tài khoản</a></li>
-                        <li><a class="dropdown-item" href="index.html">Đăng xuất</a></li>
+                        <li><a class="dropdown-item" href="manage-account">Quản lý tài khoản</a></li>
+                        <li><a class="dropdown-item" href="history-order">Lịch sử</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="logout()">Đăng xuất</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
+
     <div class="order-container" style="padding-top:150px;padding-bottom:100px;">
         <div class="order-info" style="padding-right:0px;padding-left:70px;">
             <h2>Thông tin đặt hàng</h2>
-            <form id="order-form" action="#"><input type="text" placeholder="Họ và tên" required="" class="mb-3 mt-3"><input type="text" placeholder="Địa chỉ" required="" class="mb-3 mt-3"><input type="text" placeholder="Số điện thoại" required="" class="mt-3 mb-3"><input type="email" placeholder="Email" required="" class="mt-3 mb-3"></form>
+            <form id="order-form" action="#">
+                <input type="text" placeholder="Họ và tên" required="" class="mb-3 mt-3">
+                <input type="text" placeholder="Địa chỉ" required="" class="mb-3 mt-3">
+                <input type="text" placeholder="Số điện thoại" required="" class="mt-3 mb-3">
+                <input type="email" placeholder="Email" required="" class="mt-3 mb-3">
+            </form>
         </div>
         <div id="product-information" class="order-summary" style="margin-top:45px;margin-right:56px;padding-right:20px;" form="order-form">
-            <div class="product-item"><img src="assets/img/Cây%20kim%20ngân%20bonsai.png" alt="Cây sanh bonsai">
-                <p>Cây sanh bonsai</p><span>50,000</span>
+            <div class="product-item" id="product-item">
             </div>
-            <div class="product-item"><img src="assets/img/Cây%20sanh%20bonsai.png" alt="Cây kim ngân bonsai">
-                <p>Cây kim ngân bonsai</p><span>75,000</span>
-            </div>
-            <div class="price-details">
-                <p>Tiền hàng <span>125,000</span></p>
+            <div class="price-details" id="price-details">
+                <p>Tiền hàng <span class="total-price" id="total-price">125,000</span></p>
                 <p>Shipping: <span>Free</span></p>
-                <p class="total">Tổng: <span>125,000</span></p>
+                <p>Tổng: <span class="grand-total" id="grand-total">125,000</span></p>
             </div>
-            <div class="payment-method"><label><input type="radio" id="bank-option" name="payment" value="bank">&nbsp;Chuyển khoản&nbsp;<img alt="VNPay" src="assets/img/VNPay.png" style="text-align:right;"></label><label><input type="radio" checked="" name="payment" value="cash"> Tiền mặt</label></div><button class="btn btn-primary" id="checkOutBtn" type="button" form="order-form">Đặt hàng</button>
+            <div class="payment-method" id="payment-method">
+                <label>
+                    <input type="radio" id="bank-option" name="payment" value="bank">&nbsp;Chuyển khoản&nbsp;
+                    <img alt="VNPay" src="assets/img/VNPay.png" style="text-align:right;">
+                </label>
+                <label>
+                    <input type="radio" checked="" name="payment" value="cash"> Tiền mặt
+                </label>
+            </div>
+            <button class="btn btn-primary" id="checkOutBtn" type="button" form="order-form">Đặt hàng</button>
         </div>
     </div>
     <div id="qr-modal" class="popup">
@@ -72,16 +104,16 @@
                 <div class="col">
                     <p style="color: #ffffff;font-weight: bold;font-size: 20px;">Tài khoản</p><a href="#">
                         <p style="color: #ffffff;">Tài khoản của tôi</p>
-                    </a><a href="login.html">
+                    </a><a href="login">
                         <p style="color: #ffffff;">Đăng nhập/ Đăng ký</p>
-                    </a><a href="shopping-cart.html">
+                    </a><a href="shopping-cart">
                         <p style="color: #ffffff;">Giỏ hàng</p>
-                    </a><a href="product-page.html">
+                    </a><a href="product-page">
                         <p style="color: #ffffff;">Cửa hàng</p>
                     </a>
                 </div>
                 <div class="col">
-                    <p style="color: #ffffff;font-size: 20px;font-weight: bold;">Quick Link</p><a href="contact-us.html">
+                    <p style="color: #ffffff;font-size: 20px;font-weight: bold;">Quick Link</p><a href="contact-us">
                         <p style="color: #ffffff;">Liên hệ</p>
                     </a>
                 </div>
@@ -100,6 +132,7 @@
     <script src="assets/js/admin-order-page.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assers/js/CheckLogin.js"></script>
 </body>
 
 </html>

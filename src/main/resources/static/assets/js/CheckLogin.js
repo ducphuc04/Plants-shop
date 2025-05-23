@@ -21,6 +21,14 @@ function logout() {
     window.location.href = "/login";
 }
 
+// function checkLogin(){
+//     const token = localStorage.getItem('jwt') || localStorage.getItem('access_token');
+//
+//     if (!token){
+//
+//     }
+// }
+
 // Gọi khi trang tải
 document.addEventListener("DOMContentLoaded", function() {
     updateNavigation();

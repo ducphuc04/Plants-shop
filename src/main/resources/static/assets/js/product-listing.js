@@ -88,23 +88,23 @@ function renderProducts(products) {
     products.forEach(product => {
         html += `
             <div class="col-md-3 mb-4">
-                <div class="card h-100 border-3">
-                    <div class="card-body text-center">
-                        <img class="img-fluid" src="${product.image}" alt="${product.productName}">
-                        <p class="card-title" style="text-align: left; font-size: 22px; font-weight: bold; height: 66px;">
-                            ${product.productName}
-                        </p>
-                        <p class="card-description-1" style="text-align: left; font-size: 20px; width: 160px; height: 30px;">
-                            ${formatPrice(product.price)} VNĐ
-                        </p>
-                        <a href="/product-detail-page?product=${product.productId}">
+                <a href="/product-detail-page?product=${product.productId}" class="text-decoration-none text-dark">
+                    <div class="card h-100 border-3">
+                        <div class="card-body text-center">
+                            <img class="img-fluid" src="${product.image}" alt="${product.productName}">
+                            <p class="card-title" style="text-align: left; font-size: 22px; font-weight: bold; height: 66px;">
+                                ${product.productName}
+                            </p>
+                            <p class="card-description-1" style="text-align: left; font-size: 20px; width: 160px; height: 30px;">
+                                ${formatPrice(product.price)} VNĐ
+                            </p>
                             <button class="btn btn-primary" type="button" 
                                     style="color: #198754; border-color: #198754; border-radius: 20px; font-size: 20px; background: #ffffff;">
                                 Mua ngay
                             </button>
-                        </a>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>`;
     });
     
