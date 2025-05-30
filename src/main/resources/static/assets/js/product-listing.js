@@ -18,6 +18,12 @@ function loadCategories() {
         });
 }
 
+function loadProductsBtn(page = 0, category = nul){
+    // loadProducts(0, category);
+    window.location.href = "/features";
+    loadProducts(0, category);
+}
+
 // Hàm tải danh sách sản phẩm
 function loadProducts(page = 0, category = null) {
     // Lưu trạng thái hiện tại

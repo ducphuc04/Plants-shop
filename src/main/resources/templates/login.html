@@ -203,8 +203,8 @@
                   const urlParams = new URLSearchParams(window.location.search);
                   const returnUrl = urlParams.get("returnUrl") || localStorage.getItem("returnUrl");
 
-                  if (role === "ADMIN") {
-                    window.location.href = "/admin-index";
+                  if (role === "ADMIN" || role === "EMPLOYEE") {
+                    window.location.href = "/admin-overview";
                   } else if (returnUrl) {
                     localStorage.removeItem("returnUrl");
                     window.location.href = returnUrl;

@@ -3,18 +3,23 @@ package com.DucPhuc.Plants_shop.service;
 import com.DucPhuc.Plants_shop.dto.response.PagingResponse;
 import com.DucPhuc.Plants_shop.dto.response.ProductResponse;
 import com.DucPhuc.Plants_shop.entity.CartItem;
+import com.DucPhuc.Plants_shop.entity.OrderDetails;
+import com.DucPhuc.Plants_shop.entity.Orders;
 import com.DucPhuc.Plants_shop.entity.Product;
 import com.DucPhuc.Plants_shop.exception.AppException;
 import com.DucPhuc.Plants_shop.exception.ErrorCode;
 import com.DucPhuc.Plants_shop.repository.CartItemRepository;
+import com.DucPhuc.Plants_shop.repository.OrderDetailsRepository;
 import com.DucPhuc.Plants_shop.repository.ProductRepository;
 import com.DucPhuc.Plants_shop.util.ImageValidator;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +34,9 @@ public class ProductService {
 
     @Autowired
     private CartItemRepository cartItemRepository;
+
+    @Autowired
+    private OrderDetailsRepository orderDetailsRepository;
 
     public List<String> getAllCategories() {
         return productRepository.findAllCategories();
@@ -109,40 +117,68 @@ public class ProductService {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
+    @Transactional
     public void deleteProduct(long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
-        cartItemRepository.deleteAllByProduct_ProductId(productId);
+        if (product.getCartItems() != null){
+            for (CartItem cartItem : new ArrayList<>(product.getCartItems())){
+                cartItem.setProduct(null);
+                cartItemRepository.delete(cartItem);
+            }
+            product.getCartItems().clear();
+        }
 
-        productRepository.deleteById(productId);
+        if (product.getOrderDetailsList() != null){
+            for (OrderDetails detail : new ArrayList<>(product.getOrderDetailsList())){
+                detail.setProduct(null);
+                orderDetailsRepository.delete(detail);
+            }
+            product.getOrderDetailsList().clear();
+        }
+
+        productRepository.delete(product);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
+    @Transactional
     public ProductResponse updateProduct(long productId, Product product) {
 
         Product existingProduct = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
-        if (!isValidImage(product.getImage())) {
-            throw new AppException(ErrorCode.INVALID_IMAGE);
-        }
+        if (product.getPrice() != null)
+            existingProduct.setPrice(product.getPrice());
 
-        if (product != null)
-        {
-            if (product.getPrice() != null)
-                existingProduct.setPrice(product.getPrice());
+        if (product.getStock() != null)
+            existingProduct.setStock(product.getStock());
 
-            if (product.getStock() != null)
-                existingProduct.setStock(product.getStock());
+        if (product.getDescription() != null)
+            existingProduct.setDescription(product.getDescription());
 
-            if (product.getDescription() != null)
-                existingProduct.setDescription(product.getDescription());
 
-            if (product.getImage() != null) {
-                existingProduct.setImage(product.getImage());
+        if (existingProduct.getOrderDetailsList() != null) {
+            for (OrderDetails detail : existingProduct.getOrderDetailsList()) {
+                if (detail.getOrder() != null && !detail.getOrder().getStatus().equals("processed")) {
+                    if (product.getPrice() != null) {
+                        Orders order = detail.getOrder();
+                        order.setTotalPrice(order.getTotalPrice() + detail.getQuantity() * (product.getPrice() - detail.getPrice()));
+                        System.out.println("***********");
+                        detail.setPrice(product.getPrice());
+                    }
+                }
             }
         }
+
+        if (product.getStock() != null)
+            existingProduct.setStock(product.getStock());
+
+        if (product.getDescription() != null)
+            existingProduct.setDescription(product.getDescription());
+
+        if (product.getPrice() != null)
+            existingProduct.setPrice(product.getPrice());
 
         return convertToResponse(existingProduct);
     }

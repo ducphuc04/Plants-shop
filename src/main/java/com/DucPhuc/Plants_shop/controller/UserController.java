@@ -6,6 +6,7 @@ import com.DucPhuc.Plants_shop.dto.request.UpdateUserRequest;
 import com.DucPhuc.Plants_shop.dto.request.UserCreationRequest;
 import com.DucPhuc.Plants_shop.dto.response.*;
 import com.DucPhuc.Plants_shop.service.CartService;
+import com.DucPhuc.Plants_shop.service.OrderService;
 import com.DucPhuc.Plants_shop.service.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private CartService cartService;;
+    @Autowired
+    private OrderService orderService;
 
     @PostMapping("/registration")
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request)
@@ -50,10 +53,10 @@ public class UserController {
                 .build();
     }
 
-    @PutMapping("/update-user/{userId}")
-    ApiResponse<UserResponse> updateUser(@PathVariable String userId, @Valid @RequestBody UpdateUserRequest request)
+    @PutMapping("/update-user/{username}")
+    ApiResponse<UserResponse> updateUser(@PathVariable String username, @Valid @RequestBody UpdateUserRequest request)
     {
-        var result = userService.updateUser(userId, request);
+        var result = userService.updateUser(username, request);
         return ApiResponse.<UserResponse>builder()
                 .result(result)
                 .build();
@@ -123,11 +126,11 @@ public class UserController {
     }
 
     @GetMapping("/get-order")
-    public ApiResponse<PagingResponse<OrderResponse>> getOrders(@AuthenticationPrincipal Jwt jwt,
-                                                                Pageable pageable){
-        String username = jwt.getSubject();
+    public ApiResponse<PagingResponse<OrderResponse>> getOrders(Pageable pageable){
+        var context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
 
-        PagingResponse<OrderResponse> orders = cartService.getAllOrders(username, pageable);
+        PagingResponse<OrderResponse> orders = orderService.getAllOrdersForUser(username, pageable);
 
         return ApiResponse.<PagingResponse<OrderResponse>>builder()
                 .result(orders)
@@ -138,9 +141,24 @@ public class UserController {
     public ApiResponse<String> cancelOrder(@PathVariable Long orderId,
                                            @AuthenticationPrincipal Jwt jwt){
         String username = jwt.getSubject();
-        cartService.cancelOrder(username, orderId);
+        orderService.cancelOrder(username, orderId);
         return ApiResponse.<String>builder()
                 .result("order has been canceled")
                 .build();
     }
+
+    @GetMapping("/order-details/{orderId}")
+    public ApiResponse<PagingResponse<OrderDetailResponse>> getOrderDetails(
+            @PathVariable Long orderId,
+            Pageable pageable,
+            @AuthenticationPrincipal Jwt jwt) {
+
+        String username = jwt.getSubject();
+        PagingResponse<OrderDetailResponse> details = orderService.getOrderDetail(orderId, pageable);
+
+        return ApiResponse.<PagingResponse<OrderDetailResponse>>builder()
+                .result(details)
+                .build();
+    }
+
 }

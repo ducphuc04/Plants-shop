@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class EmployeeResponse {
     Long employeeId;
+    String username;
     String fullName;
     String role;
     String address;

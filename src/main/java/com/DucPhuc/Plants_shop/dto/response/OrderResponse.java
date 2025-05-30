@@ -14,9 +14,15 @@ import java.util.Date;
 @NoArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class OrderResponse {
+    Long orderId;
     Date orderDate;
+    Date paymentDate;
     int totalProduct;
     int totalPrice;
+    String address;
+    String phone;
+    String name;
+    String email;
     String paymentMethod;
     String status;
 }

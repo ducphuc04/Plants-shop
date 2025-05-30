@@ -17,54 +17,159 @@
 
 <body>
     <nav class="navbar navbar-expand-lg fixed-top bg-body clean-navbar mb-0">
-        <div class="container"><a class="navbar-brand logo" href="index.html" style="font-weight: bold;">PLANTS SHOP</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container">
+            <a class="navbar-brand logo" href="index" style="font-weight: bold">PLANTS SHOP</a>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1">
+                <span class="visually-hidden">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/index.html">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/features.html">Sản Phẩm</a></li>
-                    <li class="nav-item"><a class="nav-link me-0" href="/contact-us.html">Liên Hệ</a></li>
-                </ul><a href="shopping-cart.html"><button class="btn btn-primary class=&quot;fa-solid fa-cart-shopping mb-2 me-4" type="button" style="background: var(--bs-primary);"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cart3" style="width: 20px;height: 20px;">
+                    <li class="nav-item"><a class="nav-link" href="/index">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/features">Sản Phẩm</a></li>
+                    <li class="nav-item"><a class="nav-link me-0" href="/contact-us">Liên Hệ</a></li>
+                    <li class="nav-item" id="login-nav-item"><a class="nav-link" href="/login">Đăng nhập</a></li>
+                </ul>
+
+                <!-- Giỏ hàng -->
+                <a href="shopping-cart">
+                    <button class="btn btn-primary mb-2 me-4" type="button" style="background: var(--bs-primary)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                             viewBox="0 0 16 16" class="bi bi-cart3" style="width: 20px; height: 20px">
                             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
-                        </svg></button></a>
-                <div class="dropdown"><button class="btn btn-primary dropdown-toggle pb-2 mt-0 mb-2" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="far fa-user"></i></button>
+                        </svg>
+                    </button>
+                </a>
+
+                <!-- User dropdown menu (hidden by default) -->
+                <div id="user-dropdown" class="dropdown d-none">
+                    <button class="btn btn-primary dropdown-toggle pb-2 mt-0 mb-2" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="far fa-user"></i>
+                    </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="manage-account.html">Quản lý tài khoản</a></li>
-                        <li><a class="dropdown-item" href="index.html">Đăng xuất</a></li>
+                        <li><a class="dropdown-item" href="manage-account">Quản lý tài khoản</a></li>
+                        <li><a class="dropdown-item" href="history-order">Lịch sử</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="logout()">Đăng xuất</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
+
     <main class="page">
-        <section class="clean-block mt-5">
+        <section class="clean-block clean-form dark" style="padding-top: 50px;">
             <div class="container">
-                <div>
-                    <form>
-                        <div>
-                            <h1 style="font-size: 34px;margin-left: 150px;">Chỉnh sửa thông tin cá nhân:</h1>
+                <div class="block-heading">
+                    <h2 class="text-primary">Quản lý tài khoản</h2>
+                    <p>Cập nhật thông tin cá nhân của bạn</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mx-auto">
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" id="accountTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Thông tin</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password" type="button" role="tab" aria-controls="password" aria-selected="false">Đổi mật khẩu</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-3" id="accountTabsContent">
+                                    <!-- Profile Tab -->
+                                    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        <form id="profileForm">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="username">Tên đăng nhập</label>
+                                                <input class="form-control" type="text" id="username" autocomplete="username"
+                                                       readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="name">Họ và tên</label>
+                                                <input class="form-control" type="text" id="name" autocomplete="name"
+                                                >
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="email">Email</label>
+                                                <input class="form-control" type="email" id="email" autocomplete="email"
+                                                >
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="phone">Số điện thoại</label>
+                                                <input class="form-control" type="tel" id="phone" autocomplete="tel"
+                                                >
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="address">Địa chỉ</label>
+                                                <textarea class="form-control" id="address" rows="3" autocomplete="street-address"></textarea>
+                                            </div>
+                                            <button class="btn btn-primary" type="button" id="updateProfileBtn">Cập nhật</button>
+                                        </form>
+                                    </div>
+                                    
+                                    <!-- Password Tab -->
+                                    <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
+                                        <form id="passwordForm">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="oldPassword">Mật khẩu hiện tại</label>
+                                                <input class="form-control" type="password" id="oldPassword" autocomplete="current-password">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="newPassword">Mật khẩu mới</label>
+                                                <input class="form-control" type="password" id="newPassword" autocomplete="new-password">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="confirmPassword">Xác nhận mật khẩu mới</label>
+                                                <input class="form-control" type="password" id="confirmPassword" autocomplete="new-password">
+                                            </div>
+                                            <button class="btn btn-primary" type="button" id="updatePasswordBtn">Đổi mật khẩu</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="justify-content-between mt-5" style="margin-left: 150px;margin-right: 150px;">
-                            <div class="mb-4"><label class="form-label">Họ</label><input class="form-control" type="text" value="Nguyễn Đức"></div>
-                            <div class="mb-4"><label class="form-label">Tên</label><input class="form-control" type="text" value="Phúc"></div>
-                            <div class="mb-4"><label class="form-label">Email</label><input class="form-control" type="email" value="ndphuc20@gmai.com"></div>
-                            <div class="mb-4"><label class="form-label">Địa chỉ</label><input class="form-control" type="text" value="La Khê, Hà Đông"></div>
-                            <div class="mb-4"><label class="form-label">Thay đổi mật khẩu</label><input class="form-control mb-2 mt-2" type="password"><input class="form-control mb-2 mt-2" type="password"><input class="form-control mb-2 mt-2" type="password"></div>
-                            <div style="margin-top: 40px;text-align: right;"><button class="btn btn-primary" type="button" style="margin-right: 31px;color: #000000;background: #ffffff;border-style: none;">Hủy</button><button class="btn btn-primary" type="button" style="background: #74a65d;border-style: none;">Lưu thông tin</button></div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
+
+    <footer class="page-footer dark">
+        <div class="container">
+            <div class="row" style="transform: scale(0.80);">
+                <div class="col">
+                    <p style="color: #ffffff;font-weight: bold;font-size: 20px;">Hỗ trợ</p>
+                    <p style="color: #ffffff;">Km10, Nguyễn Trãi, Hà Đông, Hà Nội</p>
+                    <p style="color: #ffffff;">ndphuc2004@gmail.com</p>
+                    <p style="color: #ffffff;">0999999</p>
+                </div>
+                <div class="col">
+                    <p style="color: #ffffff;font-weight: bold;font-size: 20px;">Tài khoản</p>
+                    <a href="manage-account"><p style="color: #ffffff;">Tài khoản của tôi</p></a>
+                    <a href="login"><p style="color: #ffffff;">Đăng nhập/ Đăng ký</p></a>
+                    <a href="shopping-cart"><p style="color: #ffffff;">Giỏ hàng</p></a>
+                    <a href="features"><p style="color: #ffffff;">Cửa hàng</p></a>
+                </div>
+                <div class="col">
+                    <p style="color: #ffffff;font-size: 20px;font-weight: bold;">Quick Link</p>
+                    <a href="contact-us"><p style="color: #ffffff;">Liên hệ</p></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <p>© 2025 Copyright Text</p>
+        </div>
+    </footer>
+
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/baguetteBox.min.js"></script>
     <script src="assets/js/vanilla-zoom.js"></script>
     <script src="assets/js/theme.js"></script>
-    <script src="assets/js/admin-manage-account.js"></script>
-    <script src="assets/js/admin-order-page.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/CheckLogin.js"></script>
+    <script src="assets/js/ManageAccount.js"></script>
 </body>
 
 </html>

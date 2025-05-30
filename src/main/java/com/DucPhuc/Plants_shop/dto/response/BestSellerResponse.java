@@ -1,6 +1,5 @@
 package com.DucPhuc.Plants_shop.dto.response;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -8,14 +7,11 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class OrderDetailResponse {
+public class BestSellerResponse {
     Long productId;
     String productName;
-    Integer quantity;
-    Integer price;
-    Integer totalPrice;
-    String imageUrl;
+    int totalSales;
+    int totalPrice;
+    int currentStock;
 }

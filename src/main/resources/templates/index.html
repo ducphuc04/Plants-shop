@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="en" >
+<html data-bs-theme="light" lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Brand</title>
+    <title>Home - Plants Shop</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,400,500,600,700&amp;display=swap">
@@ -16,171 +16,137 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg fixed-top bg-body clean-navbar mb-0">
-  <div class="container">
-    <a class="navbar-brand logo" href="index" style="font-weight: bold">PLANTS SHOP</a>
-    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1">
-      <span class="visually-hidden">Toggle navigation</span>
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navcol-1">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="/index">Trang chủ</a></li>
-        <li class="nav-item"><a class="nav-link" href="/features">Sản Phẩm</a></li>
-        <li class="nav-item"><a class="nav-link me-0" href="/contact-us">Liên Hệ</a></li>
-        <li class="nav-item" id="login-nav-item"><a class="nav-link" href="/login">Đăng nhập</a></li>
-      </ul>
-
-      <!-- Giỏ hàng -->
-      <a href="shopping-cart">
-        <button class="btn btn-primary mb-2 me-4" type="button" style="background: var(--bs-primary)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
-               viewBox="0 0 16 16" class="bi bi-cart3" style="width: 20px; height: 20px">
-            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
-          </svg>
+    <nav class="navbar navbar-expand-lg fixed-top bg-body clean-navbar mb-0">
+      <div class="container">
+        <a class="navbar-brand logo" href="index" style="font-weight: bold">PLANTS SHOP</a>
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1">
+          <span class="visually-hidden">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
         </button>
-      </a>
+        <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="/index">Trang chủ</a></li>
+            <li class="nav-item"><a class="nav-link" href="/features">Sản Phẩm</a></li>
+            <li class="nav-item"><a class="nav-link me-0" href="/contact-us">Liên Hệ</a></li>
+            <li class="nav-item" id="login-nav-item"><a class="nav-link" href="/login">Đăng nhập</a></li>
+          </ul>
 
-      <!-- User dropdown menu (hidden by default) -->
-      <div id="user-dropdown" class="dropdown d-none">
-        <button class="btn btn-primary dropdown-toggle pb-2 mt-0 mb-2" type="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="far fa-user"></i>
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="manage-account">Quản lý tài khoản</a></li>
-          <li><a class="dropdown-item" href="history-order">Lịch sử</a></li>
-          <li><a class="dropdown-item" href="#" onclick="logout()">Đăng xuất</a></li>
-        </ul>
+          <!-- Giỏ hàng -->
+          <a href="shopping-cart">
+            <button class="btn btn-primary mb-2 me-4" type="button" style="background: var(--bs-primary)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                   viewBox="0 0 16 16" class="bi bi-cart3" style="width: 20px; height: 20px">
+                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
+              </svg>
+            </button>
+          </a>
+
+          <!-- User dropdown menu (hidden by default) -->
+          <div id="user-dropdown" class="dropdown d-none">
+            <button class="btn btn-primary dropdown-toggle pb-2 mt-0 mb-2" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="far fa-user"></i>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="manage-account">Quản lý tài khoản</a></li>
+              <li><a class="dropdown-item" href="history-order">Lịch sử</a></li>
+              <li><a class="dropdown-item" href="#" onclick="logout()">Đăng xuất</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</nav>
+    </nav>
 
 <main class="page" style="transform: perspective(50px);">
         <section class="clean-block clean-hero" style="background-image: url('/assets/img/tech/hero-section.png');color: rgba(110, 235, 128, 0.5);transform: scale(0.80);height: 700px;">
             <div class="text">
                 <h1 class="fw-bold hero-font-size">Plants Shop</h1>
-                <p class="fs-3">Chuyên cung cấp cây cảnh, chậu cây , phân bón và dụng cụ làm vườn</p><a href="features"><button class="btn btn-outline-success btn-lg text-uppercase text-bg-success d-inline" type="button" style="font-weight: bold;">Xem tất cả sản phẩm</button></a>
+                <p class="fs-3">Chuyên cung cấp cây cảnh, chậu cây, phân bón và dụng cụ làm vườn</p>
+                <a href="features">
+                    <button class="btn btn-outline-success btn-lg text-uppercase text-bg-success d-inline" type="button" style="font-weight: bold;">Xem tất cả sản phẩm</button>
+                </a>
             </div>
         </section>
+        
+        <!-- Categories Section -->
         <section class="clean-block clean-info dark">
             <div class="container my-5">
                 <div class="block-heading">
-                    <h1 class="text-info"><strong><span style="color: rgb(14, 14, 14);">Sản phẩm nổi bật</span></strong></h1>
+                    <h1 class="text-info"><strong><span style="color: rgb(14, 14, 14);">Danh mục sản phẩm</span></strong></h1>
                 </div>
             </div>
-            <div class="row mx-lg-5 g-3" style="transform: scale(0.80);">
-                <div class="col-md-3" style="border-radius: 0px;">
+            <div id="categories-container" class="row mx-lg-5 g-4 d-flex flew-row" style="transform: scale(0.90);">
+                <div class="col-md-3">
                     <div class="card h-100 border-3">
-                        <div class="card-body text-center"><img class="img-fluid" src="assets/img/xẻng%20làm%20vườn.png">
-                            <p class="mt-3 my-3 card-title" style="font-size: 25px;height: 75px;color: #000000;font-weight: bold;">Cây bonsai mini</p>
-                            <p class="text-decoration-none my-4 card-description" style="text-align: left;font-size: 20px;height: 90px;color: #000000;">Dễ chăm sóc, phù hợp để bàn làm việc</p><a href="features?category=11413572"><button class="btn text-decoration-none mt-2 my-3 card-button" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;">Mua ngay</button></a>
+                        <div class="card-body text-center">
+                            <img class="img-fluid" src="https://res.cloudinary.com/ducphuc/image/upload/v1748221594/ggehdzgakgvosla46ckm.jpg">
+                            <h3 class="mt-3 my-3 card-title" style="font-size: 25px;height: 75px;color: #000000;font-weight: bold;">Cây bonsai mini</h3>
+                            <p class="text-decoration-none my-4 card-description" style="text-align: left;font-size: 20px;height: 90px;color: #000000;">Các loại cây bonsai mini chất lượng cao</p>
+                            <a href="#" onclick="loadProductsBtn(0, 'cây bonsai mini'); return false;">
+                                <button class="btn text-decoration-none mt-2 my-3 card-button" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;">Xem ngay</button>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="card h-100 border-3">
-                        <div class="card-body text-center"><img class="img-fluid" src="assets/img/xẻng%20làm%20vườn.png">
-                            <p class="mt-3 my-3 card-title" style="font-weight: bold;font-size: 25px;height: 75px;">Chậu cây</p>
-                            <p class="my-4 card-description" style="text-align: left;font-size: 20px;height: 90px;">Thiết kế hiện đại, phù hợp mọi loại cây</p><a href="features?category=115430718"><button class="btn text-decoration-none mt-2 my-3 card-button" type="button" style="border-radius: 20px;color: #198754;border-color: #198754;font-size: 20px;">Mua ngay</button></a>
+                        <div class="card-body text-center">
+                            <img class="img-fluid" src="https://res.cloudinary.com/ducphuc/image/upload/v1748205335/r0p6n2bppgfmtachekap.png">
+                            <h3 class="mt-3 my-3 card-title" style="font-size: 25px;height: 75px;color: #000000;font-weight: bold;">Phân bón</h3>
+                            <p class="text-decoration-none my-4 card-description" style="text-align: left;font-size: 20px;height: 90px;color: #000000;">Các loại phân bón chất lượng cao</p>
+                            <a href="features" onclick="loadProductsBtn(0, 'phân bón'); return false;">
+                                <button class="btn text-decoration-none mt-2 my-3 card-button" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;">Xem ngay</button>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="card h-100 border-3">
-                        <div class="card-body text-center"><img class="img-fluid" src="assets/img/xẻng%20làm%20vườn.png">
-                            <p class="mt-3 my-3 card-title" style="font-weight: bold;font-size: 25px;height: 75px;">Phân bón</p>
-                            <p class="my-4 card-description" style="text-align: left;font-size: 20px;height: 90px;">Giúp cây phát nhanh và khỏe mạnh</p><a href="features?category=470851088"><button class="btn text-decoration-none mt-2 my-3 card-button" type="button" style="border-radius: 20px;color: #198754;border-color: #198754;font-size: 20px;">Mua ngay</button></a>
+                        <div class="card-body text-center">
+                            <img class="img-fluid" src="https://res.cloudinary.com/ducphuc/image/upload/v1747932378/gujnvij0kyhqmnixn8su.png">
+                            <h3 class="mt-3 my-3 card-title" style="font-size: 25px;height: 75px;color: #000000;font-weight: bold;">Dụng cụ làm vườn</h3>
+                            <p class="text-decoration-none my-4 card-description" style="text-align: left;font-size: 20px;height: 90px;color: #000000;">Các loại dụng cụ làm vườn chất lượng cao</p>
+                            <a href="features?category=phân bón">
+                                <button class="btn text-decoration-none mt-2 my-3 card-button" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;">Xem ngay</button>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card border-3">
-                        <div class="card-body text-center"><img class="img-fluid" src="assets/img/xẻng%20làm%20vườn.png">
-                            <p class="my-3 mt-3 card-title" style="font-size: 25px;font-weight: bold;height: 75px;">Dụng cụ làm vườn</p>
-                            <p class="my-4 card-description" style="text-align: left;font-size: 20px;height: 90px;">Bộ dụng cụ cơ bản cho người làm vườn</p><a href="features?category=456669315"><button class="btn text-decoration-none mt-2 my-3 card-button" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;">Mua ngay</button></a>
+                    <div class="card h-100 border-3">
+                        <div class="card-body text-center">
+                            <img class="img-fluid" src="https://res.cloudinary.com/ducphuc/image/upload/v1747931850/bpl4i1eqhfqa6quy0u3d.jpg">
+                            <h3 class="mt-3 my-3 card-title" style="font-size: 25px;height: 75px;color: #000000;font-weight: bold;">Chậu cây</h3>
+                            <p class="text-decoration-none my-4 card-description" style="text-align: left;font-size: 20px;height: 90px;color: #000000;">Các loại chậu cây chất lượng cao</p>
+                            <a href="features?category=chậu%20cây">
+                                <button onclick="loadProducts(0, 'chậu cây'); return false;" class="btn text-decoration-none mt-2 my-3 card-button" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;">Xem ngay</button>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-4"><a href="features"><button class="btn btn-primary" type="button" style="background: rgb(25,135,84);">Xem tất cả sản phẩm</button></a></div>
+            <div class="text-center mt-4 mb-5">
+                <a href="features">
+                    <button class="btn btn-success" type="button">Xem tất cả sản phẩm</button>
+                </a>
+            </div>
         </section>
+        
+        <!-- Products Section -->
         <section class="clean-block features">
             <div class="container">
                 <div class="block-heading">
-                    <h2 style="text-align: left;font-weight: bold;">Khám phá sản phẩm của chúng tôi</h2>
+                    <h2 style="text-align: left;font-weight: bold;">Sản phẩm nổi bật</h2>
                 </div>
             </div>
-            <div class="row mx-lg-5 g-3" style="transform: scale(0.80);width: auto;">
-                <div class="col-md-3">
-                    <div class="card h-100 border-3">
-                        <div class="card-body text-center"><img class="img-fluid" src="assets/img/Cây%20sanh%20bonsai.png">
-                            <p class="card-title" style="text-align: left;font-size: 22px;font-weight: bold;height: 66px;">Cây sanh bonsai</p>
-                            <p class="card-description-1" style="text-align: left;font-size: 20px;width: 160px;height: 30px;">50000VNĐ</p><a class="card-link ref-product" href="product-detail-page?product=1781903015" data-product-id="1781903015"><button class="btn btn-primary" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;background: #ffffff;">Mua ngay</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100 border-3">
-                        <div class="card-body text-center"><img class="img-fluid" src="assets/img/Cây%20sanh%20bonsai.png">
-                            <p class="text-decoration-none card-title" style="text-align: left;font-size: 22px;font-weight: bold;height: 66px;">Cây sanh bonsai đặc biệt</p>
-                            <p class="card-description-2" style="text-align: left;font-size: 20px;width: 160px;height: 30px;">5000000000000VNĐ</p><a href="#"><button class="btn btn-primary" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;background: #ffffff;">Mua ngay</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100 border-3">
-                        <div class="card-body text-center"><img class="img-fluid" src="assets/img/Cây%20sanh%20bonsai.png">
-                            <p class="text-decoration-none card-title" style="text-align: left;font-size: 22px;font-weight: bold;height: 66px;">Cây sanh bonsai loại 1</p>
-                            <p class="text-decoration-none card-description-1" style="text-align: left;font-size: 20px;width: 160px;height: 30px;">50000VNĐ</p><a href="#"><button class="btn btn-primary" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;background: #ffffff;">Mua ngay</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100 border-3">
-                        <div class="card-body text-center"><img class="img-fluid" src="assets/img/Cây%20sanh%20bonsai.png">
-                            <p class="text-decoration-none card-title" style="text-align: left;font-size: 22px;font-weight: bold;height: 66px;">Cây sanh bonsai</p>
-                            <p class="text-decoration-none card-description-1" style="text-align: left;font-size: 20px;width: 160px;height: 30px;">50000VNĐ</p><a href="#"><button class="btn btn-primary" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;background: #ffffff;">Mua ngay</button></a>
-                        </div>
-                    </div>
-                </div>
+            <div id="featured-products" class="row mx-lg-5 g-4">
+                <!-- Featured products will be loaded dynamically -->
             </div>
-            <div class="row mx-lg-5 g-3" style="transform: scale(0.80);width: auto;">
-                <div class="col-md-3">
-                    <div class="card h-100 border-3">
-                        <div class="card-body text-center"><img class="img-fluid" src="assets/img/Cây%20sanh%20bonsai.png">
-                            <p class="text-decoration-none card-title" style="text-align: left;font-size: 22px;font-weight: bold;height: 66px;">Cây sanh bonsai</p>
-                            <p class="text-decoration-none card-description-1" style="text-align: left;font-size: 20px;width: 160px;">50000VNĐ</p><a href="#"><button class="btn btn-primary my-3" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;background: #ffffff;">Mua ngay</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100 border-3">
-                        <div class="card-body text-center"><img class="img-fluid" src="assets/img/Cây%20sanh%20bonsai.png">
-                            <p class="text-decoration-none card-title" style="text-align: left;font-size: 22px;font-weight: bold;height: 66px;">Cây sanh bonsai đặc biệt</p>
-                            <p class="card-description-2" style="text-align: left;font-size: 20px;width: 160px;">5000000000000VNĐ</p><a href="#"><button class="btn btn-primary my-3" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;background: #ffffff;">Mua ngay</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100 border-3">
-                        <div class="card-body text-center"><img class="img-fluid" src="assets/img/Cây%20sanh%20bonsai.png">
-                            <p class="text-decoration-none card-title" style="text-align: left;font-size: 22px;font-weight: bold;height: 66px;">Cây sanh bonsai loại 1</p>
-                            <p class="text-decoration-none card-description-1" style="text-align: left;font-size: 20px;width: 160px;">50000VNĐ</p><a href="#"><button class="btn btn-primary my-3" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;background: #ffffff;">Mua ngay</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100 border-3">
-                        <div class="card-body text-center"><img class="img-fluid" src="assets/img/Cây%20sanh%20bonsai.png">
-                            <p class="text-decoration-none card-title" style="text-align: left;font-size: 22px;font-weight: bold;height: 66px;">Cây sanh bonsai</p>
-                            <p class="text-decoration-none card-description-1" style="text-align: left;font-size: 20px;width: 160px;">50000VNĐ</p><a href="#"><button class="btn btn-primary my-3" type="button" style="color: #198754;border-color: #198754;border-radius: 20px;font-size: 20px;background: #ffffff;">Mua ngay</button></a>
-                        </div>
-                    </div>
-                </div>
+            <div class="text-center my-5">
+                <a href="features">
+                    <button class="btn btn-success" type="button">Xem tất cả sản phẩm</button>
+                </a>
             </div>
-            <div class="text-center my-4"><a href="features"><button class="btn btn-success" type="button">Xem tất cả sản phẩm</button></a></div>
         </section>
     </main>
     <footer class="page-footer dark">
@@ -224,6 +190,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/js/script.js"></script>
     <script src="assets/js/CheckLogin.js"></script>
+    <script src="assets/js/index.js"></script>
+    <script src="assets/js/product-listing.js"></script>
 </body>
 
 </html>

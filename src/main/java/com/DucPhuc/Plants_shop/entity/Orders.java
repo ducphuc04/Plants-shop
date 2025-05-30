@@ -29,8 +29,9 @@ public class Orders {
     private String address;
     private String phone;
     private String email;
+    private String name;
     private String paymentMethod;
     private Date paymentDate;
-    @OneToMany(mappedBy = "order")
-    private List<OrderDetails> orderDetails;
+//    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<OrderDetails> orderDetails;
 }

@@ -75,8 +75,14 @@ public class HomeController {
     }
 
     @GetMapping("/checkout")
-    public String checkout(){
+    public String checkout(@RequestParam("orderId") Long orderId){
         return "checkout";
     }
+
+    @GetMapping("/history-order")
+    public String histtoryOrder(){
+        return "history-order";
+    }
+
 }
 

@@ -4,6 +4,7 @@ import com.DucPhuc.Plants_shop.dto.request.CreateEmployeeRequest;
 import com.DucPhuc.Plants_shop.dto.request.EmployeeUpdateRequest;
 import com.DucPhuc.Plants_shop.dto.response.*;
 import com.DucPhuc.Plants_shop.entity.Employee;
+import com.DucPhuc.Plants_shop.entity.Orders;
 import com.DucPhuc.Plants_shop.entity.User;
 import com.DucPhuc.Plants_shop.exception.AppException;
 import com.DucPhuc.Plants_shop.exception.ErrorCode;
@@ -71,6 +72,7 @@ public class AdminService {
         employee.setRole(request.getRole());
         employee.setPhone(request.getPhone());
         employee.setAddress(request.getAddress());
+        employee.setEmail(request.getEmail());
         employee.setCreateBy(new java.util.Date());
         employee = employeeRepository.save(employee);
 
@@ -80,6 +82,25 @@ public class AdminService {
                 .phone(employee.getPhone())
                 .address(employee.getAddress())
                 .role(employee.getRole())
+                .build();
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
+    public EmployeeResponse getEmployee(){
+
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        Employee employee = employeeRepository.findByUsername(name)
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
+
+        return EmployeeResponse.builder()
+                .employeeId(employee.getEmployeeId())
+                .username(employee.getUsername())
+                .fullName(employee.getFullName())
+                .role(employee.getRole())
+                .address(employee.getAddress())
+                .phone(employee.getPhone())
                 .build();
     }
 
@@ -97,6 +118,8 @@ public class AdminService {
             employee.setPhone(request.getPhone());
         if (request.getAddress() != null)
             employee.setAddress(request.getAddress());
+        if (request.getEmail() != null)
+            employee.setEmail(request.getEmail());
 
         if (request.getOldPassword() != null) {
             boolean isSame = passwordEncoder.matches(request.getOldPassword(), employee.getPassword());
@@ -153,9 +176,16 @@ public class AdminService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteEmployee(String username) {
-        Employee employee = employeeRepository.findByUsername(username)
+    public void deleteEmployee(Long employeeId) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId)
                 .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
+
+        if (employee.getOrders() != null){
+            for (Orders order : employee.getOrders()){
+                order.setEmployee(null);
+            }
+        }
+
         employeeRepository.delete(employee);
     }
 }

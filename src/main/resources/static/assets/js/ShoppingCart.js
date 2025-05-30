@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Get JWT token
     const token = localStorage.getItem('jwt') || localStorage.getItem('access_token');
 
-    // Check if user is logged in
     if (!token) {
         Swal.fire({
             title: 'Bạn cần đăng nhập',
@@ -183,12 +182,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 createOrder(username);
             });
         }
-
-        // if (createOrderButton) {
-        //     createOrderButton.addEventListener('click', function(){
-        //         createOrder(username);
-        //     })
-        // }
     }
 
     // Update cart item quantity
@@ -273,15 +266,23 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(data => {
                 if (data.result) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Thành công',
-                        text: 'Đơn hàng đã được tạo',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        window.location.href = `/checkout?orderId=${data.result.orderId}`;
-                    });
+                    const orderId = data.result.orderId;
+                    console.log(orderId);
+                    if (orderId) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: 'Đơn hàng đã được tạo',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.href = `/checkout?orderId=${orderId}`;
+                        });
+                    } else {
+                        throw new Error("Failed to create order");
+                    }
+                }else{
+                    throw new Error('Invalid response format');
                 }
             })
             .catch(error => {
@@ -294,8 +295,5 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-
-
-    // Load cart items when page loads
     loadCartItems();
 });

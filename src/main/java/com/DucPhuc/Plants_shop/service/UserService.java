@@ -88,11 +88,17 @@ public class UserService {
                 .build();
     }
 
-    @PostAuthorize("returnObject.username == authentication.name")
-    public UserResponse updateUser(String id, UpdateUserRequest request)
-    {
 
-        User user = userRepository.findById(id)
+    public UserResponse updateUser(String name, UpdateUserRequest request)
+    {
+        var context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+
+        if (!username.equals(name)) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+
+        User user = userRepository.findByUsername(name)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         if (request.getOldPassword() != null) {
@@ -109,22 +115,23 @@ public class UserService {
             }
         }
 
-        if (request.getEmail() != null) {
+        if (request.getEmail() != null && !request.getEmail().equals(user.getEmail())) {
             if (userRepository.existsByEmail(request.getEmail()))
                 throw new AppException(ErrorCode.EMAIL_HAS_USED);
             else
                 user.setEmail(request.getEmail());
         }
 
-        if (request.getPhone() != null) {
+        if (request.getPhone() != null && !request.getPhone().equals(user.getPhone())) {
             if (userRepository.existsByPhone(request.getPhone()))
                 throw new AppException(ErrorCode.PHONE_HAS_USED);
             else
                 user.setPhone(request.getPhone());
         }
-
-        user.setName(request.getName());
-        user.setAddress(request.getAddress());
+        if (request.getName() != null)
+            user.setName(request.getName());
+        if (request.getAddress() != null)
+            user.setAddress(request.getAddress());
 
         userRepository.save(user);
 

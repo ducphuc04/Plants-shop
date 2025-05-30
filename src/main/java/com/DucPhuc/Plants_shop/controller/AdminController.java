@@ -56,19 +56,19 @@ public class AdminController {
                 .build();
     }
 
-    @DeleteMapping("/deleteEmployee/{username}")
-    public ApiResponse<String> deleteEmployee(@PathVariable String username) {
+    @DeleteMapping("/deleteEmployee/{employeeId}")
+    public ApiResponse<String> deleteEmployee(@PathVariable Long employeeId) {
 
-        adminService.deleteEmployee(username);
+        adminService.deleteEmployee(employeeId);
 
         return ApiResponse.<String>builder()
-                .result(username + " has been deleted")
+                .result(employeeId + " has been deleted")
                 .build();
     }
 
     @GetMapping("/getOrders")
-    public ApiResponse<PagingResponse<OrderResponse>> getAllOrders(Pageable pageable) {
-        var result = orderService.getAllOrders(pageable);
+    public ApiResponse<PagingResponse<OrderResponse>> getAllOrders(Pageable pageable, @RequestParam(required = false) String status) {
+        var result = orderService.getAllOrders(pageable, status);
 
         return ApiResponse.<PagingResponse<OrderResponse>>builder()
                 .result(result)
@@ -95,4 +95,12 @@ public class AdminController {
                 .result(result)
                 .build();
     }
+
+    @GetMapping("/getEmployee")
+    public ApiResponse<EmployeeResponse> getEmployee(){
+        return ApiResponse.<EmployeeResponse>builder()
+                .result(adminService.getEmployee())
+                .build();
+    }
+
 }

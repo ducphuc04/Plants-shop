@@ -17,13 +17,16 @@
 
 <body>
     <nav class="navbar navbar-expand-md fixed-top bg-body mb-0 pb-3 pt-3">
-        <div class="container-fluid"><a class="navbar-brand ms-4" href="admin-overview.html" style="margin-left: 30px;"><strong>PLANTS SHOP</strong></a><button class="navbar-toggler" data-bs-toggle="collapse"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></div>
+        <div class="container-fluid"><a class="navbar-brand ms-4" href="admin-overview" style="margin-left: 30px;"><strong>PLANTS SHOP</strong></a><button class="navbar-toggler" data-bs-toggle="collapse"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></div>
     </nav>
     <main class="page">
         <div class="sidebar sidebar-menu" style="width: 275px;height: 622px;">
             <div style="width: 250px;" class="mt-3">
                 <ul class="nav nav-tabs pb-0 mt-4 pt-3 mb-5" style="width: 250px;height: 300px;">
-                    <li class="nav-item"><a class="nav-link active nav-link active" href="admin-overview.html"><i class="fas fa-home me-3"></i><span>Overview</span></a><a class="nav-link" href="admin-product.html"><i class="fas fa-layer-group me-3" style="color: #000000;"></i><span style="color: #000000;">Product</span></a><a class="nav-link" href="admin-order.html"><i class="fas fa-shopping-cart me-3" style="color: #000000;"></i><span style="color: #000000;">Order</span></a><a class="nav-link" href="admin-users.html"><i class="fas fa-users me-3" style="color: #000000;"></i><span style="color: #000000;">Users</span></a><a class="nav-link" href="admin-employees.html"><i class="fas fa-user-tie me-3" style="color: #000000;"></i><span style="color: #000000;">Employees</span></a><a class="nav-link" href="admin-manage-account.html"><i class="fas fa-user-cog me-3" style="color: #000000;"></i><span style="color: #000000;">Manage account</span></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link active nav-link active" href="admin-overview">
+                            <i class="fas fa-home me-3"></i>
+                            <span>Overview</span></a><a class="nav-link" href="admin-product"><i class="fas fa-layer-group me-3" style="color: #000000;"></i><span style="color: #000000;">Product</span></a><a class="nav-link" href="admin-order"><i class="fas fa-shopping-cart me-3" style="color: #000000;"></i><span style="color: #000000;">Order</span></a><a class="nav-link" href="admin-users"><i class="fas fa-users me-3" style="color: #000000;"></i><span style="color: #000000;">Users</span></a><a class="nav-link" href="admin-employees"><i class="fas fa-user-tie me-3" style="color: #000000;"></i><span style="color: #000000;">Employees</span></a><a class="nav-link" href="admin-manage-account"><i class="fas fa-user-cog me-3" style="color: #000000;"></i><span style="color: #000000;">Manage account</span></a></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
@@ -31,56 +34,44 @@
             </div>
             <hr class="mt-4">
             <div class="footer-sidebar">
-                <div><span>Welcome, Users</span></div>
-                <div><a href="index.html"><i class="fas fa-sign-out-alt pe-0 me-3" style="font-size: 16px;color: #000000;"></i><span style="color: #000000;">Log Out</span></a></div>
+                <div><span id="welcome-text">Welcome, Users</span></div>
+                <div><a href="index"><i class="fas fa-sign-out-alt pe-0 me-3" style="font-size: 16px;color: #000000;"></i><span style="color: #000000;">Log Out</span></a></div>
             </div>
         </div>
         <div class="main-content h-100">
             <div class="container h-100">
                 <div>
-                    <div class="mb-4 mt-5 pt-0"><span style="font-size: 25px;" class="me-4"><strong>List of employee</strong></span><a href="admin-create-account.html"><i class="far fa-plus-square" style="font-size: 23px;"></i></a></div>
+                    <div class="mb-4 mt-5 pt-0" id="add-employee">
+                        <span style="font-size: 25px;" class="me-4">
+                            <strong>List of employee</strong>
+                        </span>
+                        <a href="admin-create-account">
+                            <i class="far fa-plus-square" style="font-size: 23px;"></i>
+                        </a>
+                    </div>
                     <div class="table-responsive" style="margin-top: 0px;margin-right: 60px;margin-left: 0px;">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th style="text-align: center;">ID</th>
                                     <th style="text-align: center;">Name</th>
                                     <th style="text-align: center;">Role</th>
                                     <th style="text-align: center;">Address</th>
-                                    <th style="text-align: center;">Số điện thoại</th>
-                                    <th style="text-align: center;">Số đơn hàng</th>
+                                    <th style="text-align: center;">Phone</th>
+                                    <th style="text-align: center;">Total Orders</th>
                                     <th style="text-align: center;"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="height: 52px;">0001</td>
-                                    <td class="text-start" style="height: 52px;">Nguyễn Văn A</td>
-                                    <td class="form-group" style="text-align: right;height: 52px;"><select class="form-select">
-                                            <option value="employee" selected="">employee</option>
-                                            <option value="manager ">manager</option>
-                                            <option value="admin">admin</option>
-                                        </select></td>
-                                    <td style="text-align: center;height: 52px;">154</td>
-                                    <td style="text-align: center;height: 52px;">098774</td>
-                                    <td style="text-align: center;height: 52px;">255</td>
-                                    <td style="text-align: center;"><button class="btn btn-danger" type="button" style="background: #ffffff; border-color:#fff"><i class="fas fa-times-circle pe-0 me-0" style="color: rgb(238,10,10);font-size: 21px;"></i></button></td>
-                                </tr>
-                                <tr>
-                                    <td>0002</td>
-                                    <td>Nguyễn Thị Hà</td>
-                                    <td style="text-align: right;"><select class="form-select">
-                                            <option value="employee" selected="">employee</option>
-                                            <option value="manager ">manager</option>
-                                            <option value="admin">admin</option>
-                                        </select></td>
-                                    <td style="text-align: center;">47</td>
-                                    <td style="text-align: center;">045785</td>
-                                    <td style="text-align: center;">4444</td>
-                                    <td style="text-align: center;"><button class="btn btn-danger" type="button" style="background: #ffffff; border-color:#fff"><i class="fas fa-times-circle pe-0 me-0" style="color: rgb(238,10,10);font-size: 21px;"></i></button></td>
-                                </tr>
+                            <tbody id="employees-table-body">
+
                             </tbody>
                         </table>
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination" id="pagination">
+                                <!-- Pagination will be populated here -->
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -91,10 +82,9 @@
     <script src="assets/js/baguetteBox.min.js"></script>
     <script src="assets/js/vanilla-zoom.js"></script>
     <script src="assets/js/theme.js"></script>
-    <script src="assets/js/admin-manage-account.js"></script>
-    <script src="assets/js/admin-order-page.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/LoadEmployee.js"></script>
+    <script src="assets/js/AdminEmployee.js"></script>
 </body>
 
 </html>

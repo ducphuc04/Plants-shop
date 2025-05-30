@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,4 +27,12 @@ public class Product {
     private Date createdAt;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetails> orderDetailsList;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems;
+
+    public static class ProductBuilder {
+        private List<OrderDetails> orderDetailsList = new ArrayList<>();
+        private List<CartItem> cartItems = new ArrayList<>();
+    }
+
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Plants Shop</title>
+    <title>Plants Shop - Admin Dashboard</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,400,500,600,700&amp;display=swap">
@@ -17,13 +17,38 @@
 
 <body>
     <nav class="navbar navbar-expand-md fixed-top bg-body mb-0 pb-3 pt-3">
-        <div class="container-fluid"><a class="navbar-brand ms-4" href="admin-overview.html" style="margin-left: 30px;"><strong>PLANTS SHOP</strong></a><button class="navbar-toggler" data-bs-toggle="collapse"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></div>
+        <div class="container-fluid"><a class="navbar-brand ms-4" href="admin-overview" style="margin-left: 30px;"><strong>PLANTS SHOP</strong></a><button class="navbar-toggler" data-bs-toggle="collapse"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></div>
     </nav>
     <main class="page">
         <div class="sidebar sidebar-menu" style="width: 275px;height: 622px;">
             <div style="width: 250px;" class="mt-3">
                 <ul class="nav nav-tabs pb-0 mt-4 pt-3 mb-5" style="width: 250px;height: 300px;">
-                    <li class="nav-item"><a class="nav-link active nav-link active" href="admin-overview.html"><i class="fas fa-home me-3"></i><span>Overview</span></a><a class="nav-link" href="admin-product.html"><i class="fas fa-layer-group me-3" style="color: #000000;"></i><span style="color: #000000;">Product</span></a><a class="nav-link" href="admin-order.html"><i class="fas fa-shopping-cart me-3" style="color: #000000;"></i><span style="color: #000000;">Order</span></a><a class="nav-link" href="admin-users.html"><i class="fas fa-users me-3" style="color: #000000;"></i><span style="color: #000000;">Users</span></a><a class="nav-link" href="admin-employees.html"><i class="fas fa-user-tie me-3" style="color: #000000;"></i><span style="color: #000000;">Employees</span></a><a class="nav-link" href="admin-manage-account.html"><i class="fas fa-user-cog me-3" style="color: #000000;"></i><span style="color: #000000;">Manage account</span></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link active nav-link active" href="admin-overview">
+                            <i class="fas fa-home me-3"></i>
+                            <span>Overview</span>
+                        </a>
+                        <a class="nav-link" href="admin-product">
+                            <i class="fas fa-layer-group me-3" style="color: #000000;"></i>
+                            <span style="color: #000000;">Product</span>
+                        </a>
+                        <a class="nav-link" href="admin-order">
+                            <i class="fas fa-shopping-cart me-3" style="color: #000000;"></i>
+                            <span style="color: #000000;">Order</span>
+                        </a>
+                        <a class="nav-link" href="admin-users">
+                            <i class="fas fa-users me-3" style="color: #000000;"></i>
+                            <span style="color: #000000;">Users</span>
+                        </a>
+                        <a class="nav-link" href="admin-employees">
+                            <i class="fas fa-user-tie me-3" style="color: #000000;"></i>
+                            <span style="color: #000000;">Employees</span>
+                        </a>
+                        <a class="nav-link" href="admin-manage-account">
+                            <i class="fas fa-user-cog me-3" style="color: #000000;"></i>
+                            <span style="color: #000000;">Manage account</span>
+                        </a>
+                    </li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
@@ -31,34 +56,42 @@
             </div>
             <hr class="mt-4">
             <div class="footer-sidebar">
-                <div><span>Welcome, Users</span></div>
-                <div><a href="index.html"><i class="fas fa-sign-out-alt pe-0 me-3" style="font-size: 16px;color: #000000;"></i><span style="color: #000000;">Log Out</span></a></div>
+                <div><span id="welcome-user">Welcome, Admin</span></div>
+                <div>
+                    <a href="#" id="logout-button">
+                        <i class="fas fa-sign-out-alt pe-0 me-3" style="font-size: 16px;color: #000000;"></i>
+                        <span style="color: #000000;">Log Out</span>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="main-content h-100">
             <div class="mt-5">
                 <section class="mb-5">
                     <div class="container">
-                        <h1>Summary</h1><span>Last 30days</span>
+                        <h1>Summary</h1><span>Last 30 days</span>
                         <div class="row mt-4">
                             <div class="col">
-                                <div class="card">
-                                    <div class="card-body"><small class="pb-2 pt-2">Total Product</small>
-                                        <h3 class="mt-2" style="text-align: left;font-size: 20px;">154</h3>
+                                <div class="card summary-card" id="total-products-card">
+                                    <div class="card-body">
+                                        <small class="pb-2 pt-2">Total Products</small>
+                                        <h3 class="mt-2" style="text-align: left;font-size: 20px;" id="total-products">Loading...</h3>
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="card">
-                                    <div class="card-body"><small class="pb-2 pt-2">Total Income</small>
-                                        <h3 style="text-align: left;font-size: 20px;" class="mt-2">15422154VNĐ</h3>
+                                <div class="card summary-card" id="total-income-card">
+                                    <div class="card-body">
+                                        <small class="pb-2 pt-2">Total Income</small>
+                                        <h3 style="text-align: left;font-size: 20px;" class="mt-2" id="total-income">Loading...</h3>
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="card">
-                                    <div class="card-body"><small class="pb-2 pt-2">Average</small>
-                                        <h3 class="mt-2" style="text-align: left;font-size: 20px;">15422VNĐ</h3>
+                                <div class="card summary-card" id="average-order-card">
+                                    <div class="card-body">
+                                        <small class="pb-2 pt-2">Average Order Value</small>
+                                        <h3 class="mt-2" style="text-align: left;font-size: 20px;" id="average-order">Loading...</h3>
                                     </div>
                                 </div>
                             </div>
@@ -67,13 +100,15 @@
                 </section>
                 <section class="clean-block features">
                     <div class="container">
-                        <div style="width: 1032.4px;"><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#ffffff&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;],&quot;fill&quot;:false,&quot;borderWidth&quot;:&quot;8&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:true,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;,&quot;fontColor&quot;:&quot;#c63c3c&quot;,&quot;fontSize&quot;:18},&quot;position&quot;:&quot;top&quot;},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;,&quot;position&quot;:&quot;top&quot;,&quot;fontSize&quot;:20,&quot;display&quot;:false},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:true}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:true}}]}}}"></canvas></div>
+                        <div class="chart-container" style="width: 100%; max-width: 1000px;">
+                            <canvas id="revenue-chart"></canvas>
+                        </div>
                     </div>
                 </section>
                 <section class="clean-block features">
                     <div class="container">
                         <div>
-                            <h2 style="font-size: 20px;"><strong>Best seller:</strong></h2>
+                            <h2 style="font-size: 20px;"><strong>Best Sellers:</strong></h2>
                         </div>
                         <div>
                             <div class="table-responsive">
@@ -86,18 +121,9 @@
                                             <th>Current Stock</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="best-sellers-table">
                                         <tr>
-                                            <td>Chậu cây sứ</td>
-                                            <td>30</td>
-                                            <td>500000</td>
-                                            <td>12</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Đạm</td>
-                                            <td>50</td>
-                                            <td>200000</td>
-                                            <td>20</td>
+                                            <td colspan="4" class="text-center">Loading best sellers data...</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -114,10 +140,8 @@
     <script src="assets/js/baguetteBox.min.js"></script>
     <script src="assets/js/vanilla-zoom.js"></script>
     <script src="assets/js/theme.js"></script>
-    <script src="assets/js/admin-manage-account.js"></script>
-    <script src="assets/js/admin-order-page.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/AdminDashboard.js"></script>
 </body>
 
 </html>

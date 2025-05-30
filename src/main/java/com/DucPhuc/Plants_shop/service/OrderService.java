@@ -6,10 +6,7 @@ import com.DucPhuc.Plants_shop.dto.response.PagingResponse;
 import com.DucPhuc.Plants_shop.entity.*;
 import com.DucPhuc.Plants_shop.exception.AppException;
 import com.DucPhuc.Plants_shop.exception.ErrorCode;
-import com.DucPhuc.Plants_shop.repository.EmployeeRepository;
-import com.DucPhuc.Plants_shop.repository.OrderDetailsRepository;
-import com.DucPhuc.Plants_shop.repository.OrderRepository;
-import com.DucPhuc.Plants_shop.repository.ProductRepository;
+import com.DucPhuc.Plants_shop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -36,13 +34,28 @@ public class OrderService {
     @Autowired
     EmployeeRepository employeeRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
-    public PagingResponse<OrderResponse> getAllOrders(Pageable pageable){
-        Page<Orders> orders = orderRepository.findByStatusNot("unpaid", pageable);
+    public PagingResponse<OrderResponse> getAllOrders(Pageable pageable, String status){
+        Page<Orders> orders;
+
+        if (status == null || status.equalsIgnoreCase("all")){
+            orders = orderRepository.findByStatusNot("unpaid", pageable);
+        } else{
+            orders = orderRepository.findByStatus(status.toLowerCase(), pageable);
+        }
 
         List<OrderResponse> items = orders.getContent().stream().map(
                 order -> OrderResponse.builder()
+                        .orderId(order.getOrderId())
+                        .name(order.getName() == null ? "" : order.getName() )
+                        .address(order.getAddress())
+                        .phone(order.getPhone())
+                        .email(order.getEmail())
                         .paymentMethod(order.getPaymentMethod())
+                        .paymentDate(order.getPaymentDate())
                         .totalProduct(order.getTotalProduct())
                         .totalPrice(order.getTotalPrice())
                         .status(order.getStatus())
@@ -76,7 +89,7 @@ public class OrderService {
 
         else{
             if (action.equals("cancel")) {
-                order.setStatus("cancelled");
+                order.setStatus("canceled");
                 order.setEmployee(employee);
             }
 
@@ -127,6 +140,30 @@ public class OrderService {
                 .build();
     }
 
+    public PagingResponse<OrderResponse> getAllOrdersForUser(String username, Pageable pageable)
+    {
+        Page<Orders> orders = orderRepository.findByUser_username(username, pageable);
+
+        List<OrderResponse> orderResponses = orders.stream()
+                .map(order -> OrderResponse.builder()
+                        .orderId(order.getOrderId())
+                        .orderDate(order.getOrderDate())
+                        .totalPrice(order.getTotalPrice())
+                        .totalProduct(order.getTotalProduct())
+                        .paymentMethod(order.getPaymentMethod())
+                        .paymentDate(order.getPaymentDate())
+                        .status(order.getStatus())
+                        .build())
+                .collect(Collectors.toList());
+
+        return PagingResponse.of(
+                orderResponses,
+                orders.getNumber(),
+                orders.getTotalPages(),
+                orders.getTotalElements()
+        );
+    }
+
     public PagingResponse<OrderDetailResponse> getOrderDetail(Long orderId, Pageable pageable){
 
         var context = SecurityContextHolder.getContext();
@@ -149,10 +186,12 @@ public class OrderService {
                 detail -> {
                     Product product = detail.getProduct();
                     return OrderDetailResponse.builder()
+                            .productId(product.getProductId())
                             .productName(product.getProductName())
                             .quantity(detail.getQuantity())
                             .price(product.getPrice())
                             .totalPrice(product.getPrice() * detail.getQuantity())
+                            .imageUrl(product.getImage())
                             .build();
                 }
         ).toList();
@@ -163,6 +202,27 @@ public class OrderService {
                 orderDetails.getTotalPages(),
                 orderDetails.getTotalElements()
         );
+    }
+
+    public void cancelOrder(String username, Long orderId)
+    {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        if (!name.equals(username))
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        Orders order = orderRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+
+        if (order.getStatus().equals("pending")) {
+            order.setStatus("canceled");
+            orderRepository.save(order);
+        }
+        else
+            throw new AppException(ErrorCode.CANNOT_DELETE_ORDER);
     }
 
 //    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_EMPLOYEE')")

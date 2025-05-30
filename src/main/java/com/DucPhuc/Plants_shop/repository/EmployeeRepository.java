@@ -15,9 +15,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
     Optional<Employee> findByUsername(String username);
     boolean existsByUsername(String username);
     @Query("""
-            SELECT e.employeeId, e.fullName, e.role, e.phone, e.address, COUNT(o.id)
+            SELECT e.employeeId, e.fullName, e.role, e.phone, e.address, COUNT(o.orderId)
             FROM Employee e LEFT JOIN Orders o ON o.employee = e
+            WHERE e.role = 'EMPLOYEE'
             GROUP BY e.employeeId, e.fullName, e.role, e.phone, e.address
             """)
     Page<Object[]> findAllWithOrderCount(Pageable pageable);
+
+    Optional<Employee> findByEmployeeId(long employeeId);
 }

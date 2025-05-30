@@ -20,4 +20,5 @@ public class CreateEmployeeRequest {
     String role;
     String phone;
     String address;
+    String email;
 }
